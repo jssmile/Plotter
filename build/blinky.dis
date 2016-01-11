@@ -1,5 +1,5 @@
 
-/home/jssmile/STM32F4_Examples/04_PWM_Servo/build/blinky.elf:     file format elf32-littlearm
+/home/jssmile/Plotter/build/blinky.elf:     file format elf32-littlearm
 
 
 Disassembly of section .text:
@@ -100,13 +100,13 @@ void Reset_Handler(void)
  80001e2:	4770      	bx	lr
  80001e4:	20000000 	.word	0x20000000
  80001e8:	20000024 	.word	0x20000024
- 80001ec:	08002194 	.word	0x08002194
+ 80001ec:	0800217c 	.word	0x0800217c
  80001f0:	20000024 	.word	0x20000024
  80001f4:	20000028 	.word	0x20000028
 
 080001f8 <SysTick_Handler>:
 #include "stm32f4xx.h"
-#define  PHASE_DELAY   5
+#define  PHASE_DELAY   2
 
 volatile uint32_t msTicks;      //counts 1ms timeTicks
 void SysTick_Handler(void) {
@@ -405,7 +405,7 @@ void config_PWM(void) {
  80002d4:	f001 f830 	bl	8001338 <GPIO_PinAFConfig>
      
      */
-    uint16_t PrescalerValue = (uint16_t) 72;
+    uint16_t PrescalerValue = (uint16_t) 84;
 
     // Time Base Configuration
     TIM_TimeBaseStructure.TIM_Period        = 19999;
@@ -417,12 +417,12 @@ void config_PWM(void) {
     TIM_TimeBaseInit(TIM4, &TIM_TimeBaseStructure);
  80002dc:	4620      	mov	r0, r4
      */
-    uint16_t PrescalerValue = (uint16_t) 72;
+    uint16_t PrescalerValue = (uint16_t) 84;
 
     // Time Base Configuration
     TIM_TimeBaseStructure.TIM_Period        = 19999;
     TIM_TimeBaseStructure.TIM_Prescaler     = PrescalerValue;
- 80002de:	2348      	movs	r3, #72	; 0x48
+ 80002de:	2354      	movs	r3, #84	; 0x54
     TIM_TimeBaseStructure.TIM_ClockDivision = 0;
     TIM_TimeBaseStructure.TIM_CounterMode   = TIM_CounterMode_Up;
     
@@ -430,7 +430,7 @@ void config_PWM(void) {
  80002e0:	a902      	add	r1, sp, #8
      
      */
-    uint16_t PrescalerValue = (uint16_t) 72;
+    uint16_t PrescalerValue = (uint16_t) 84;
 
     // Time Base Configuration
     TIM_TimeBaseStructure.TIM_Period        = 19999;
@@ -557,7 +557,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  800036a:	6823      	ldr	r3, [r4, #0]
  800036c:	1a9b      	subs	r3, r3, r2
- 800036e:	2b05      	cmp	r3, #5
+ 800036e:	2b02      	cmp	r3, #2
  8000370:	d3fb      	bcc.n	800036a <clockwise_A+0x26>
                    GPIO_Pin_13 | GPIO_Pin_14);
     for(int i = 0; i < n; i++) {
@@ -578,7 +578,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  800037e:	6823      	ldr	r3, [r4, #0]
  8000380:	1a9b      	subs	r3, r3, r2
- 8000382:	2b05      	cmp	r3, #5
+ 8000382:	2b02      	cmp	r3, #2
  8000384:	d3fb      	bcc.n	800037e <clockwise_A+0x3a>
         //step1
         GPIO_SetBits(GPIOG, GPIO_Pin_9);
@@ -599,7 +599,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  8000392:	6823      	ldr	r3, [r4, #0]
  8000394:	1a9b      	subs	r3, r3, r2
- 8000396:	2b05      	cmp	r3, #5
+ 8000396:	2b02      	cmp	r3, #2
  8000398:	d3fb      	bcc.n	8000392 <clockwise_A+0x4e>
         Delay(PHASE_DELAY);
         GPIO_ResetBits(GPIOG, GPIO_Pin_10);
@@ -620,7 +620,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  80003a6:	6823      	ldr	r3, [r4, #0]
  80003a8:	1a9b      	subs	r3, r3, r2
- 80003aa:	2b05      	cmp	r3, #5
+ 80003aa:	2b02      	cmp	r3, #2
  80003ac:	d3fb      	bcc.n	80003a6 <clockwise_A+0x62>
         GPIO_SetBits(GPIOG, GPIO_Pin_13);
         Delay(PHASE_DELAY);
@@ -641,7 +641,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  80003ba:	6823      	ldr	r3, [r4, #0]
  80003bc:	1a9b      	subs	r3, r3, r2
- 80003be:	2b05      	cmp	r3, #5
+ 80003be:	2b02      	cmp	r3, #2
  80003c0:	d3fb      	bcc.n	80003ba <clockwise_A+0x76>
         GPIO_ResetBits(GPIOG, GPIO_Pin_14);
         Delay(PHASE_DELAY);
@@ -662,7 +662,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  80003ce:	6823      	ldr	r3, [r4, #0]
  80003d0:	1a9b      	subs	r3, r3, r2
- 80003d2:	2b05      	cmp	r3, #5
+ 80003d2:	2b02      	cmp	r3, #2
  80003d4:	d3fb      	bcc.n	80003ce <clockwise_A+0x8a>
         //step2
         GPIO_ResetBits(GPIOG, GPIO_Pin_9);
@@ -683,7 +683,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  80003e2:	6823      	ldr	r3, [r4, #0]
  80003e4:	1a9b      	subs	r3, r3, r2
- 80003e6:	2b05      	cmp	r3, #5
+ 80003e6:	2b02      	cmp	r3, #2
  80003e8:	d3fb      	bcc.n	80003e2 <clockwise_A+0x9e>
         Delay(PHASE_DELAY);
         GPIO_SetBits(GPIOG, GPIO_Pin_10);
@@ -704,7 +704,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  80003f6:	6823      	ldr	r3, [r4, #0]
  80003f8:	1a9b      	subs	r3, r3, r2
- 80003fa:	2b05      	cmp	r3, #5
+ 80003fa:	2b02      	cmp	r3, #2
  80003fc:	d3fb      	bcc.n	80003f6 <clockwise_A+0xb2>
         GPIO_SetBits(GPIOG, GPIO_Pin_13);
         Delay(PHASE_DELAY);
@@ -725,7 +725,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  800040a:	6823      	ldr	r3, [r4, #0]
  800040c:	1a9b      	subs	r3, r3, r2
- 800040e:	2b05      	cmp	r3, #5
+ 800040e:	2b02      	cmp	r3, #2
  8000410:	d3fb      	bcc.n	800040a <clockwise_A+0xc6>
         GPIO_ResetBits(GPIOG, GPIO_Pin_14);
         Delay(PHASE_DELAY);
@@ -746,7 +746,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  800041e:	6823      	ldr	r3, [r4, #0]
  8000420:	1a9b      	subs	r3, r3, r2
- 8000422:	2b05      	cmp	r3, #5
+ 8000422:	2b02      	cmp	r3, #2
  8000424:	d3fb      	bcc.n	800041e <clockwise_A+0xda>
         //step3
         GPIO_ResetBits(GPIOG, GPIO_Pin_9);
@@ -767,7 +767,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  8000432:	6823      	ldr	r3, [r4, #0]
  8000434:	1a9b      	subs	r3, r3, r2
- 8000436:	2b05      	cmp	r3, #5
+ 8000436:	2b02      	cmp	r3, #2
  8000438:	d3fb      	bcc.n	8000432 <clockwise_A+0xee>
         Delay(PHASE_DELAY);
         GPIO_SetBits(GPIOG, GPIO_Pin_10);
@@ -788,7 +788,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  8000446:	6823      	ldr	r3, [r4, #0]
  8000448:	1a9b      	subs	r3, r3, r2
- 800044a:	2b05      	cmp	r3, #5
+ 800044a:	2b02      	cmp	r3, #2
  800044c:	d3fb      	bcc.n	8000446 <clockwise_A+0x102>
         GPIO_ResetBits(GPIOG, GPIO_Pin_13);
         Delay(PHASE_DELAY);
@@ -809,7 +809,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  800045a:	6823      	ldr	r3, [r4, #0]
  800045c:	1a9b      	subs	r3, r3, r2
- 800045e:	2b05      	cmp	r3, #5
+ 800045e:	2b02      	cmp	r3, #2
  8000460:	d3fb      	bcc.n	800045a <clockwise_A+0x116>
         GPIO_SetBits(GPIOG, GPIO_Pin_14);
         Delay(PHASE_DELAY);
@@ -830,7 +830,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  800046e:	6823      	ldr	r3, [r4, #0]
  8000470:	1a9b      	subs	r3, r3, r2
- 8000472:	2b05      	cmp	r3, #5
+ 8000472:	2b02      	cmp	r3, #2
  8000474:	d3fb      	bcc.n	800046e <clockwise_A+0x12a>
         //step4
         GPIO_SetBits(GPIOG, GPIO_Pin_9);
@@ -851,7 +851,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  8000482:	6823      	ldr	r3, [r4, #0]
  8000484:	1a9b      	subs	r3, r3, r2
- 8000486:	2b05      	cmp	r3, #5
+ 8000486:	2b02      	cmp	r3, #2
  8000488:	d3fb      	bcc.n	8000482 <clockwise_A+0x13e>
         Delay(PHASE_DELAY);
         GPIO_ResetBits(GPIOG, GPIO_Pin_10);
@@ -872,7 +872,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  8000496:	6823      	ldr	r3, [r4, #0]
  8000498:	1a9b      	subs	r3, r3, r2
- 800049a:	2b05      	cmp	r3, #5
+ 800049a:	2b02      	cmp	r3, #2
  800049c:	d3fb      	bcc.n	8000496 <clockwise_A+0x152>
 */
 void clockwise_A(int n)
@@ -939,7 +939,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  80004d6:	6823      	ldr	r3, [r4, #0]
  80004d8:	1a9b      	subs	r3, r3, r2
- 80004da:	2b05      	cmp	r3, #5
+ 80004da:	2b02      	cmp	r3, #2
  80004dc:	d3fb      	bcc.n	80004d6 <counterClockwise_A+0x26>
                    GPIO_Pin_13 | GPIO_Pin_14);
     for(int i = 0; i < n; i++) {
@@ -960,7 +960,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  80004ea:	6823      	ldr	r3, [r4, #0]
  80004ec:	1a9b      	subs	r3, r3, r2
- 80004ee:	2b05      	cmp	r3, #5
+ 80004ee:	2b02      	cmp	r3, #2
  80004f0:	d3fb      	bcc.n	80004ea <counterClockwise_A+0x3a>
         //step1
         GPIO_SetBits(GPIOG, GPIO_Pin_14);
@@ -981,7 +981,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  80004fe:	6823      	ldr	r3, [r4, #0]
  8000500:	1a9b      	subs	r3, r3, r2
- 8000502:	2b05      	cmp	r3, #5
+ 8000502:	2b02      	cmp	r3, #2
  8000504:	d3fb      	bcc.n	80004fe <counterClockwise_A+0x4e>
         Delay(PHASE_DELAY);
         GPIO_ResetBits(GPIOG, GPIO_Pin_13);
@@ -1002,7 +1002,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  8000512:	6823      	ldr	r3, [r4, #0]
  8000514:	1a9b      	subs	r3, r3, r2
- 8000516:	2b05      	cmp	r3, #5
+ 8000516:	2b02      	cmp	r3, #2
  8000518:	d3fb      	bcc.n	8000512 <counterClockwise_A+0x62>
         GPIO_SetBits(GPIOG, GPIO_Pin_10);
         Delay(PHASE_DELAY);
@@ -1023,7 +1023,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  8000526:	6823      	ldr	r3, [r4, #0]
  8000528:	1a9b      	subs	r3, r3, r2
- 800052a:	2b05      	cmp	r3, #5
+ 800052a:	2b02      	cmp	r3, #2
  800052c:	d3fb      	bcc.n	8000526 <counterClockwise_A+0x76>
         GPIO_ResetBits(GPIOG, GPIO_Pin_9);
         Delay(PHASE_DELAY);
@@ -1044,7 +1044,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  800053a:	6823      	ldr	r3, [r4, #0]
  800053c:	1a9b      	subs	r3, r3, r2
- 800053e:	2b05      	cmp	r3, #5
+ 800053e:	2b02      	cmp	r3, #2
  8000540:	d3fb      	bcc.n	800053a <counterClockwise_A+0x8a>
         //step2
         GPIO_ResetBits(GPIOG, GPIO_Pin_14);
@@ -1065,7 +1065,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  800054e:	6823      	ldr	r3, [r4, #0]
  8000550:	1a9b      	subs	r3, r3, r2
- 8000552:	2b05      	cmp	r3, #5
+ 8000552:	2b02      	cmp	r3, #2
  8000554:	d3fb      	bcc.n	800054e <counterClockwise_A+0x9e>
         Delay(PHASE_DELAY);
         GPIO_SetBits(GPIOG, GPIO_Pin_13);
@@ -1086,7 +1086,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  8000562:	6823      	ldr	r3, [r4, #0]
  8000564:	1a9b      	subs	r3, r3, r2
- 8000566:	2b05      	cmp	r3, #5
+ 8000566:	2b02      	cmp	r3, #2
  8000568:	d3fb      	bcc.n	8000562 <counterClockwise_A+0xb2>
         GPIO_SetBits(GPIOG, GPIO_Pin_10);
         Delay(PHASE_DELAY);
@@ -1107,7 +1107,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  8000576:	6823      	ldr	r3, [r4, #0]
  8000578:	1a9b      	subs	r3, r3, r2
- 800057a:	2b05      	cmp	r3, #5
+ 800057a:	2b02      	cmp	r3, #2
  800057c:	d3fb      	bcc.n	8000576 <counterClockwise_A+0xc6>
         GPIO_ResetBits(GPIOG, GPIO_Pin_9);
         Delay(PHASE_DELAY);
@@ -1128,7 +1128,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  800058a:	6823      	ldr	r3, [r4, #0]
  800058c:	1a9b      	subs	r3, r3, r2
- 800058e:	2b05      	cmp	r3, #5
+ 800058e:	2b02      	cmp	r3, #2
  8000590:	d3fb      	bcc.n	800058a <counterClockwise_A+0xda>
         //step3
         GPIO_ResetBits(GPIOG, GPIO_Pin_14);
@@ -1149,7 +1149,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  800059e:	6823      	ldr	r3, [r4, #0]
  80005a0:	1a9b      	subs	r3, r3, r2
- 80005a2:	2b05      	cmp	r3, #5
+ 80005a2:	2b02      	cmp	r3, #2
  80005a4:	d3fb      	bcc.n	800059e <counterClockwise_A+0xee>
         Delay(PHASE_DELAY);
         GPIO_SetBits(GPIOG, GPIO_Pin_13);
@@ -1170,7 +1170,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  80005b2:	6823      	ldr	r3, [r4, #0]
  80005b4:	1a9b      	subs	r3, r3, r2
- 80005b6:	2b05      	cmp	r3, #5
+ 80005b6:	2b02      	cmp	r3, #2
  80005b8:	d3fb      	bcc.n	80005b2 <counterClockwise_A+0x102>
         GPIO_ResetBits(GPIOG, GPIO_Pin_10);
         Delay(PHASE_DELAY);
@@ -1191,7 +1191,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  80005c6:	6823      	ldr	r3, [r4, #0]
  80005c8:	1a9b      	subs	r3, r3, r2
- 80005ca:	2b05      	cmp	r3, #5
+ 80005ca:	2b02      	cmp	r3, #2
  80005cc:	d3fb      	bcc.n	80005c6 <counterClockwise_A+0x116>
         GPIO_SetBits(GPIOG, GPIO_Pin_9);
         Delay(PHASE_DELAY);
@@ -1212,7 +1212,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  80005da:	6823      	ldr	r3, [r4, #0]
  80005dc:	1a9b      	subs	r3, r3, r2
- 80005de:	2b05      	cmp	r3, #5
+ 80005de:	2b02      	cmp	r3, #2
  80005e0:	d3fb      	bcc.n	80005da <counterClockwise_A+0x12a>
         //step4
         GPIO_SetBits(GPIOG, GPIO_Pin_14);
@@ -1233,7 +1233,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  80005ee:	6823      	ldr	r3, [r4, #0]
  80005f0:	1a9b      	subs	r3, r3, r2
- 80005f2:	2b05      	cmp	r3, #5
+ 80005f2:	2b02      	cmp	r3, #2
  80005f4:	d3fb      	bcc.n	80005ee <counterClockwise_A+0x13e>
         Delay(PHASE_DELAY);
         GPIO_ResetBits(GPIOG, GPIO_Pin_13);
@@ -1254,7 +1254,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  8000602:	6823      	ldr	r3, [r4, #0]
  8000604:	1a9b      	subs	r3, r3, r2
- 8000606:	2b05      	cmp	r3, #5
+ 8000606:	2b02      	cmp	r3, #2
  8000608:	d3fb      	bcc.n	8000602 <counterClockwise_A+0x152>
 }
 void counterClockwise_A(int n)
@@ -1321,7 +1321,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  8000640:	6823      	ldr	r3, [r4, #0]
  8000642:	1a9b      	subs	r3, r3, r2
- 8000644:	2b05      	cmp	r3, #5
+ 8000644:	2b02      	cmp	r3, #2
  8000646:	d3fb      	bcc.n	8000640 <clockwise_B+0x24>
                    GPIO_Pin_7 | GPIO_Pin_8);
     for(int i = 0; i < n; i++) {
@@ -1342,7 +1342,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  8000652:	6823      	ldr	r3, [r4, #0]
  8000654:	1a9b      	subs	r3, r3, r2
- 8000656:	2b05      	cmp	r3, #5
+ 8000656:	2b02      	cmp	r3, #2
  8000658:	d3fb      	bcc.n	8000652 <clockwise_B+0x36>
         //step1
         GPIO_SetBits(GPIOG, GPIO_Pin_5);
@@ -1363,7 +1363,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  8000664:	6823      	ldr	r3, [r4, #0]
  8000666:	1a9b      	subs	r3, r3, r2
- 8000668:	2b05      	cmp	r3, #5
+ 8000668:	2b02      	cmp	r3, #2
  800066a:	d3fb      	bcc.n	8000664 <clockwise_B+0x48>
         Delay(PHASE_DELAY);
         GPIO_ResetBits(GPIOG, GPIO_Pin_6);
@@ -1384,7 +1384,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  8000678:	6823      	ldr	r3, [r4, #0]
  800067a:	1a9b      	subs	r3, r3, r2
- 800067c:	2b05      	cmp	r3, #5
+ 800067c:	2b02      	cmp	r3, #2
  800067e:	d3fb      	bcc.n	8000678 <clockwise_B+0x5c>
         GPIO_SetBits(GPIOG, GPIO_Pin_7);
         Delay(PHASE_DELAY);
@@ -1405,7 +1405,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  800068a:	6823      	ldr	r3, [r4, #0]
  800068c:	1a9b      	subs	r3, r3, r2
- 800068e:	2b05      	cmp	r3, #5
+ 800068e:	2b02      	cmp	r3, #2
  8000690:	d3fb      	bcc.n	800068a <clockwise_B+0x6e>
         GPIO_ResetBits(GPIOG, GPIO_Pin_8);
         Delay(PHASE_DELAY);
@@ -1426,7 +1426,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  800069c:	6823      	ldr	r3, [r4, #0]
  800069e:	1a9b      	subs	r3, r3, r2
- 80006a0:	2b05      	cmp	r3, #5
+ 80006a0:	2b02      	cmp	r3, #2
  80006a2:	d3fb      	bcc.n	800069c <clockwise_B+0x80>
         //step2
         GPIO_ResetBits(GPIOG, GPIO_Pin_5);
@@ -1447,7 +1447,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  80006ae:	6823      	ldr	r3, [r4, #0]
  80006b0:	1a9b      	subs	r3, r3, r2
- 80006b2:	2b05      	cmp	r3, #5
+ 80006b2:	2b02      	cmp	r3, #2
  80006b4:	d3fb      	bcc.n	80006ae <clockwise_B+0x92>
         Delay(PHASE_DELAY);
         GPIO_SetBits(GPIOG, GPIO_Pin_6);
@@ -1468,7 +1468,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  80006c2:	6823      	ldr	r3, [r4, #0]
  80006c4:	1a9b      	subs	r3, r3, r2
- 80006c6:	2b05      	cmp	r3, #5
+ 80006c6:	2b02      	cmp	r3, #2
  80006c8:	d3fb      	bcc.n	80006c2 <clockwise_B+0xa6>
         GPIO_SetBits(GPIOG, GPIO_Pin_7);
         Delay(PHASE_DELAY);
@@ -1489,7 +1489,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  80006d4:	6823      	ldr	r3, [r4, #0]
  80006d6:	1a9b      	subs	r3, r3, r2
- 80006d8:	2b05      	cmp	r3, #5
+ 80006d8:	2b02      	cmp	r3, #2
  80006da:	d3fb      	bcc.n	80006d4 <clockwise_B+0xb8>
         GPIO_ResetBits(GPIOG, GPIO_Pin_8);
         Delay(PHASE_DELAY);
@@ -1510,7 +1510,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  80006e6:	6823      	ldr	r3, [r4, #0]
  80006e8:	1a9b      	subs	r3, r3, r2
- 80006ea:	2b05      	cmp	r3, #5
+ 80006ea:	2b02      	cmp	r3, #2
  80006ec:	d3fb      	bcc.n	80006e6 <clockwise_B+0xca>
         //step3
         GPIO_ResetBits(GPIOG, GPIO_Pin_5);
@@ -1531,7 +1531,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  80006f8:	6823      	ldr	r3, [r4, #0]
  80006fa:	1a9b      	subs	r3, r3, r2
- 80006fc:	2b05      	cmp	r3, #5
+ 80006fc:	2b02      	cmp	r3, #2
  80006fe:	d3fb      	bcc.n	80006f8 <clockwise_B+0xdc>
         Delay(PHASE_DELAY);
         GPIO_SetBits(GPIOG, GPIO_Pin_6);
@@ -1552,7 +1552,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  800070c:	6823      	ldr	r3, [r4, #0]
  800070e:	1a9b      	subs	r3, r3, r2
- 8000710:	2b05      	cmp	r3, #5
+ 8000710:	2b02      	cmp	r3, #2
  8000712:	d3fb      	bcc.n	800070c <clockwise_B+0xf0>
         GPIO_ResetBits(GPIOG, GPIO_Pin_7);
         Delay(PHASE_DELAY);
@@ -1573,7 +1573,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  800071e:	6823      	ldr	r3, [r4, #0]
  8000720:	1a9b      	subs	r3, r3, r2
- 8000722:	2b05      	cmp	r3, #5
+ 8000722:	2b02      	cmp	r3, #2
  8000724:	d3fb      	bcc.n	800071e <clockwise_B+0x102>
         GPIO_SetBits(GPIOG, GPIO_Pin_8);
         Delay(PHASE_DELAY);
@@ -1594,7 +1594,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  8000730:	6823      	ldr	r3, [r4, #0]
  8000732:	1a9b      	subs	r3, r3, r2
- 8000734:	2b05      	cmp	r3, #5
+ 8000734:	2b02      	cmp	r3, #2
  8000736:	d3fb      	bcc.n	8000730 <clockwise_B+0x114>
         //step4
         GPIO_SetBits(GPIOG, GPIO_Pin_5);
@@ -1615,7 +1615,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  8000742:	6823      	ldr	r3, [r4, #0]
  8000744:	1a9b      	subs	r3, r3, r2
- 8000746:	2b05      	cmp	r3, #5
+ 8000746:	2b02      	cmp	r3, #2
  8000748:	d3fb      	bcc.n	8000742 <clockwise_B+0x126>
         Delay(PHASE_DELAY);
         GPIO_ResetBits(GPIOG, GPIO_Pin_6);
@@ -1636,7 +1636,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  8000756:	6823      	ldr	r3, [r4, #0]
  8000758:	1a9b      	subs	r3, r3, r2
- 800075a:	2b05      	cmp	r3, #5
+ 800075a:	2b02      	cmp	r3, #2
  800075c:	d3fb      	bcc.n	8000756 <clockwise_B+0x13a>
 
 void clockwise_B(int n)
@@ -1703,7 +1703,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  8000796:	6823      	ldr	r3, [r4, #0]
  8000798:	1a9b      	subs	r3, r3, r2
- 800079a:	2b05      	cmp	r3, #5
+ 800079a:	2b02      	cmp	r3, #2
  800079c:	d3fb      	bcc.n	8000796 <counterClockwise_B+0x26>
                    GPIO_Pin_7 | GPIO_Pin_8);
     for(int i = 0; i < n; i++) {
@@ -1724,7 +1724,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  80007a8:	6823      	ldr	r3, [r4, #0]
  80007aa:	1a9b      	subs	r3, r3, r2
- 80007ac:	2b05      	cmp	r3, #5
+ 80007ac:	2b02      	cmp	r3, #2
  80007ae:	d3fb      	bcc.n	80007a8 <counterClockwise_B+0x38>
         //step1
         GPIO_SetBits(GPIOG, GPIO_Pin_8);
@@ -1745,7 +1745,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  80007ba:	6823      	ldr	r3, [r4, #0]
  80007bc:	1a9b      	subs	r3, r3, r2
- 80007be:	2b05      	cmp	r3, #5
+ 80007be:	2b02      	cmp	r3, #2
  80007c0:	d3fb      	bcc.n	80007ba <counterClockwise_B+0x4a>
         Delay(PHASE_DELAY);
         GPIO_ResetBits(GPIOG, GPIO_Pin_7);
@@ -1766,7 +1766,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  80007cc:	6823      	ldr	r3, [r4, #0]
  80007ce:	1a9b      	subs	r3, r3, r2
- 80007d0:	2b05      	cmp	r3, #5
+ 80007d0:	2b02      	cmp	r3, #2
  80007d2:	d3fb      	bcc.n	80007cc <counterClockwise_B+0x5c>
         GPIO_SetBits(GPIOG, GPIO_Pin_6);
         Delay(PHASE_DELAY);
@@ -1787,7 +1787,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  80007e0:	6823      	ldr	r3, [r4, #0]
  80007e2:	1a9b      	subs	r3, r3, r2
- 80007e4:	2b05      	cmp	r3, #5
+ 80007e4:	2b02      	cmp	r3, #2
  80007e6:	d3fb      	bcc.n	80007e0 <counterClockwise_B+0x70>
         GPIO_ResetBits(GPIOG, GPIO_Pin_5);
         Delay(PHASE_DELAY);
@@ -1808,7 +1808,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  80007f2:	6823      	ldr	r3, [r4, #0]
  80007f4:	1a9b      	subs	r3, r3, r2
- 80007f6:	2b05      	cmp	r3, #5
+ 80007f6:	2b02      	cmp	r3, #2
  80007f8:	d3fb      	bcc.n	80007f2 <counterClockwise_B+0x82>
         //step2
         GPIO_ResetBits(GPIOG, GPIO_Pin_8);
@@ -1829,7 +1829,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  8000804:	6823      	ldr	r3, [r4, #0]
  8000806:	1a9b      	subs	r3, r3, r2
- 8000808:	2b05      	cmp	r3, #5
+ 8000808:	2b02      	cmp	r3, #2
  800080a:	d3fb      	bcc.n	8000804 <counterClockwise_B+0x94>
         Delay(PHASE_DELAY);
         GPIO_SetBits(GPIOG, GPIO_Pin_7);
@@ -1850,7 +1850,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  8000816:	6823      	ldr	r3, [r4, #0]
  8000818:	1a9b      	subs	r3, r3, r2
- 800081a:	2b05      	cmp	r3, #5
+ 800081a:	2b02      	cmp	r3, #2
  800081c:	d3fb      	bcc.n	8000816 <counterClockwise_B+0xa6>
         GPIO_SetBits(GPIOG, GPIO_Pin_6);
         Delay(PHASE_DELAY);
@@ -1871,7 +1871,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  800082a:	6823      	ldr	r3, [r4, #0]
  800082c:	1a9b      	subs	r3, r3, r2
- 800082e:	2b05      	cmp	r3, #5
+ 800082e:	2b02      	cmp	r3, #2
  8000830:	d3fb      	bcc.n	800082a <counterClockwise_B+0xba>
         GPIO_ResetBits(GPIOG, GPIO_Pin_5);
         Delay(PHASE_DELAY);
@@ -1892,7 +1892,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  800083c:	6823      	ldr	r3, [r4, #0]
  800083e:	1a9b      	subs	r3, r3, r2
- 8000840:	2b05      	cmp	r3, #5
+ 8000840:	2b02      	cmp	r3, #2
  8000842:	d3fb      	bcc.n	800083c <counterClockwise_B+0xcc>
         //step3
         GPIO_ResetBits(GPIOG, GPIO_Pin_8);
@@ -1913,7 +1913,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  800084e:	6823      	ldr	r3, [r4, #0]
  8000850:	1a9b      	subs	r3, r3, r2
- 8000852:	2b05      	cmp	r3, #5
+ 8000852:	2b02      	cmp	r3, #2
  8000854:	d3fb      	bcc.n	800084e <counterClockwise_B+0xde>
         Delay(PHASE_DELAY);
         GPIO_SetBits(GPIOG, GPIO_Pin_7);
@@ -1934,7 +1934,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  8000860:	6823      	ldr	r3, [r4, #0]
  8000862:	1a9b      	subs	r3, r3, r2
- 8000864:	2b05      	cmp	r3, #5
+ 8000864:	2b02      	cmp	r3, #2
  8000866:	d3fb      	bcc.n	8000860 <counterClockwise_B+0xf0>
         GPIO_ResetBits(GPIOG, GPIO_Pin_6);
         Delay(PHASE_DELAY);
@@ -1955,7 +1955,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  8000874:	6823      	ldr	r3, [r4, #0]
  8000876:	1a9b      	subs	r3, r3, r2
- 8000878:	2b05      	cmp	r3, #5
+ 8000878:	2b02      	cmp	r3, #2
  800087a:	d3fb      	bcc.n	8000874 <counterClockwise_B+0x104>
         GPIO_SetBits(GPIOG, GPIO_Pin_5);
         Delay(PHASE_DELAY);
@@ -1976,7 +1976,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  8000886:	6823      	ldr	r3, [r4, #0]
  8000888:	1a9b      	subs	r3, r3, r2
- 800088a:	2b05      	cmp	r3, #5
+ 800088a:	2b02      	cmp	r3, #2
  800088c:	d3fb      	bcc.n	8000886 <counterClockwise_B+0x116>
         //step4
         GPIO_SetBits(GPIOG, GPIO_Pin_8);
@@ -1997,7 +1997,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  8000898:	6823      	ldr	r3, [r4, #0]
  800089a:	1a9b      	subs	r3, r3, r2
- 800089c:	2b05      	cmp	r3, #5
+ 800089c:	2b02      	cmp	r3, #2
  800089e:	d3fb      	bcc.n	8000898 <counterClockwise_B+0x128>
         Delay(PHASE_DELAY);
         GPIO_ResetBits(GPIOG, GPIO_Pin_7);
@@ -2018,7 +2018,7 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  80008aa:	6823      	ldr	r3, [r4, #0]
  80008ac:	1a9b      	subs	r3, r3, r2
- 80008ae:	2b05      	cmp	r3, #5
+ 80008ae:	2b02      	cmp	r3, #2
  80008b0:	d3fb      	bcc.n	80008aa <counterClockwise_B+0x13a>
 }
 void counterClockwise_B(int n)
@@ -2044,7 +2044,7 @@ void pad_init(){
     clockwise_B(65);
  80008c6:	2041      	movs	r0, #65	; 0x41
  80008c8:	f7ff fea8 	bl	800061c <clockwise_B>
-    counterClockwise_A(65);
+    clockwise_A(65);
  80008cc:	2041      	movs	r0, #65	; 0x41
 }
  80008ce:	e8bd 4008 	ldmia.w	sp!, {r3, lr}
@@ -2053,15 +2053,15 @@ void pad_init(){
 
 void pad_init(){
     clockwise_B(65);
-    counterClockwise_A(65);
- 80008d2:	f7ff bded 	b.w	80004b0 <counterClockwise_A>
+    clockwise_A(65);
+ 80008d2:	f7ff bd37 	b.w	8000344 <clockwise_A>
  80008d6:	bf00      	nop
 
 080008d8 <pen_up>:
 }
 
 void pen_up(){
-    TIM4->CCR1 = 2500;       // 600 == 0.6 ms  -> 0'   
+    TIM4->CCR1 = 1700;       // 600 == 0.6 ms  -> 0'   
  80008d8:	4b05      	ldr	r3, [pc, #20]	; (80008f0 <pen_up+0x18>)
 	msTicks++;
 }
@@ -2071,12 +2071,12 @@ static void Delay(__IO uint32_t dlyTicks){
   uint32_t curTicks = msTicks;
  80008da:	4a06      	ldr	r2, [pc, #24]	; (80008f4 <pen_up+0x1c>)
     clockwise_B(65);
-    counterClockwise_A(65);
+    clockwise_A(65);
 }
 
 void pen_up(){
-    TIM4->CCR1 = 2500;       // 600 == 0.6 ms  -> 0'   
- 80008dc:	f640 11c4 	movw	r1, #2500	; 0x9c4
+    TIM4->CCR1 = 1700;       // 600 == 0.6 ms  -> 0'   
+ 80008dc:	f240 61a4 	movw	r1, #1700	; 0x6a4
  80008e0:	6359      	str	r1, [r3, #52]	; 0x34
 	msTicks++;
 }
@@ -2093,7 +2093,7 @@ static void Delay(__IO uint32_t dlyTicks){
 }
 
 void pen_up(){
-    TIM4->CCR1 = 2500;       // 600 == 0.6 ms  -> 0'   
+    TIM4->CCR1 = 1700;       // 600 == 0.6 ms  -> 0'   
     Delay(500);
 }
  80008ee:	4770      	bx	lr
@@ -2103,7 +2103,7 @@ void pen_up(){
 080008f8 <pen_down>:
 
 void pen_down(){
-    TIM4->CCR1 = 600;      // 1500 == 1.5 ms -> 90'
+    TIM4->CCR1 = 900;      // 1500 == 1.5 ms -> 90'
  80008f8:	4b05      	ldr	r3, [pc, #20]	; (8000910 <pen_down+0x18>)
 	msTicks++;
 }
@@ -2112,13 +2112,13 @@ void pen_down(){
 static void Delay(__IO uint32_t dlyTicks){                                              
   uint32_t curTicks = msTicks;
  80008fa:	4a06      	ldr	r2, [pc, #24]	; (8000914 <pen_down+0x1c>)
-    TIM4->CCR1 = 2500;       // 600 == 0.6 ms  -> 0'   
+    TIM4->CCR1 = 1700;       // 600 == 0.6 ms  -> 0'   
     Delay(500);
 }
 
 void pen_down(){
-    TIM4->CCR1 = 600;      // 1500 == 1.5 ms -> 90'
- 80008fc:	f44f 7116 	mov.w	r1, #600	; 0x258
+    TIM4->CCR1 = 900;      // 1500 == 1.5 ms -> 90'
+ 80008fc:	f44f 7161 	mov.w	r1, #900	; 0x384
  8000900:	6359      	str	r1, [r3, #52]	; 0x34
 	msTicks++;
 }
@@ -2130,13 +2130,13 @@ static void Delay(__IO uint32_t dlyTicks){
   while ((msTicks - curTicks) < dlyTicks);
  8000904:	6813      	ldr	r3, [r2, #0]
  8000906:	1a5b      	subs	r3, r3, r1
- 8000908:	f5b3 7ffa 	cmp.w	r3, #500	; 0x1f4
+ 8000908:	f5b3 6ffa 	cmp.w	r3, #2000	; 0x7d0
  800090c:	d3fa      	bcc.n	8000904 <pen_down+0xc>
 }
 
 void pen_down(){
-    TIM4->CCR1 = 600;      // 1500 == 1.5 ms -> 90'
-    Delay(500);
+    TIM4->CCR1 = 900;      // 1500 == 1.5 ms -> 90'
+    Delay(2000);
 }
  800090e:	4770      	bx	lr
  8000910:	40000800 	.word	0x40000800
@@ -2148,11 +2148,11 @@ void pen_down(){
 void H(){
  8000918:	b538      	push	{r3, r4, r5, lr}
     clockwise_B(65);
-    counterClockwise_A(65);
+    clockwise_A(65);
 }
 
 void pen_up(){
-    TIM4->CCR1 = 2500;       // 600 == 0.6 ms  -> 0'   
+    TIM4->CCR1 = 1700;       // 600 == 0.6 ms  -> 0'   
  800091a:	4b31      	ldr	r3, [pc, #196]	; (80009e0 <H+0xc8>)
 	msTicks++;
 }
@@ -2162,12 +2162,12 @@ static void Delay(__IO uint32_t dlyTicks){
   uint32_t curTicks = msTicks;
  800091c:	4c31      	ldr	r4, [pc, #196]	; (80009e4 <H+0xcc>)
     clockwise_B(65);
-    counterClockwise_A(65);
+    clockwise_A(65);
 }
 
 void pen_up(){
-    TIM4->CCR1 = 2500;       // 600 == 0.6 ms  -> 0'   
- 800091e:	f640 12c4 	movw	r2, #2500	; 0x9c4
+    TIM4->CCR1 = 1700;       // 600 == 0.6 ms  -> 0'   
+ 800091e:	f240 62a4 	movw	r2, #1700	; 0x6a4
  8000922:	635a      	str	r2, [r3, #52]	; 0x34
 	msTicks++;
 }
@@ -2193,14 +2193,14 @@ void H(){
     clockwise_A(20);
  8000938:	2014      	movs	r0, #20
  800093a:	f7ff fd03 	bl	8000344 <clockwise_A>
-    TIM4->CCR1 = 2500;       // 600 == 0.6 ms  -> 0'   
+    TIM4->CCR1 = 1700;       // 600 == 0.6 ms  -> 0'   
     Delay(500);
 }
 
 void pen_down(){
-    TIM4->CCR1 = 600;      // 1500 == 1.5 ms -> 90'
+    TIM4->CCR1 = 900;      // 1500 == 1.5 ms -> 90'
  800093e:	4b28      	ldr	r3, [pc, #160]	; (80009e0 <H+0xc8>)
- 8000940:	f44f 7216 	mov.w	r2, #600	; 0x258
+ 8000940:	f44f 7261 	mov.w	r2, #900	; 0x384
  8000944:	635a      	str	r2, [r3, #52]	; 0x34
 	msTicks++;
 }
@@ -2213,7 +2213,7 @@ static void Delay(__IO uint32_t dlyTicks){
  8000948:	6823      	ldr	r3, [r4, #0]
  800094a:	4d26      	ldr	r5, [pc, #152]	; (80009e4 <H+0xcc>)
  800094c:	1a9b      	subs	r3, r3, r2
- 800094e:	f5b3 7ffa 	cmp.w	r3, #500	; 0x1f4
+ 800094e:	f5b3 6ffa 	cmp.w	r3, #2000	; 0x7d0
  8000952:	d3f9      	bcc.n	8000948 <H+0x30>
 void H(){
     pen_up();
@@ -2224,13 +2224,13 @@ void H(){
  8000954:	201e      	movs	r0, #30
  8000956:	f7ff fcf5 	bl	8000344 <clockwise_A>
     clockwise_B(65);
-    counterClockwise_A(65);
+    clockwise_A(65);
 }
 
 void pen_up(){
-    TIM4->CCR1 = 2500;       // 600 == 0.6 ms  -> 0'   
+    TIM4->CCR1 = 1700;       // 600 == 0.6 ms  -> 0'   
  800095a:	4b21      	ldr	r3, [pc, #132]	; (80009e0 <H+0xc8>)
- 800095c:	f640 12c4 	movw	r2, #2500	; 0x9c4
+ 800095c:	f240 62a4 	movw	r2, #1700	; 0x6a4
  8000960:	635a      	str	r2, [r3, #52]	; 0x34
 	msTicks++;
 }
@@ -2253,14 +2253,14 @@ static void Delay(__IO uint32_t dlyTicks){
     counterClockwise_A(15);
  8000970:	200f      	movs	r0, #15
  8000972:	f7ff fd9d 	bl	80004b0 <counterClockwise_A>
-    TIM4->CCR1 = 2500;       // 600 == 0.6 ms  -> 0'   
+    TIM4->CCR1 = 1700;       // 600 == 0.6 ms  -> 0'   
     Delay(500);
 }
 
 void pen_down(){
-    TIM4->CCR1 = 600;      // 1500 == 1.5 ms -> 90'
+    TIM4->CCR1 = 900;      // 1500 == 1.5 ms -> 90'
  8000976:	4b1a      	ldr	r3, [pc, #104]	; (80009e0 <H+0xc8>)
- 8000978:	f44f 7216 	mov.w	r2, #600	; 0x258
+ 8000978:	f44f 7261 	mov.w	r2, #900	; 0x384
  800097c:	635a      	str	r2, [r3, #52]	; 0x34
 	msTicks++;
 }
@@ -2273,7 +2273,7 @@ static void Delay(__IO uint32_t dlyTicks){
  8000980:	6823      	ldr	r3, [r4, #0]
  8000982:	4d18      	ldr	r5, [pc, #96]	; (80009e4 <H+0xcc>)
  8000984:	1a9b      	subs	r3, r3, r2
- 8000986:	f5b3 7ffa 	cmp.w	r3, #500	; 0x1f4
+ 8000986:	f5b3 6ffa 	cmp.w	r3, #2000	; 0x7d0
  800098a:	d3f9      	bcc.n	8000980 <H+0x68>
     pen_down();
     clockwise_A(30);
@@ -2284,13 +2284,13 @@ static void Delay(__IO uint32_t dlyTicks){
  800098c:	200f      	movs	r0, #15
  800098e:	f7ff feef 	bl	8000770 <counterClockwise_B>
     clockwise_B(65);
-    counterClockwise_A(65);
+    clockwise_A(65);
 }
 
 void pen_up(){
-    TIM4->CCR1 = 2500;       // 600 == 0.6 ms  -> 0'   
+    TIM4->CCR1 = 1700;       // 600 == 0.6 ms  -> 0'   
  8000992:	4b13      	ldr	r3, [pc, #76]	; (80009e0 <H+0xc8>)
- 8000994:	f640 12c4 	movw	r2, #2500	; 0x9c4
+ 8000994:	f240 62a4 	movw	r2, #1700	; 0x6a4
  8000998:	635a      	str	r2, [r3, #52]	; 0x34
 	msTicks++;
 }
@@ -2313,14 +2313,14 @@ static void Delay(__IO uint32_t dlyTicks){
     counterClockwise_A(15);
  80009a8:	200f      	movs	r0, #15
  80009aa:	f7ff fd81 	bl	80004b0 <counterClockwise_A>
-    TIM4->CCR1 = 2500;       // 600 == 0.6 ms  -> 0'   
+    TIM4->CCR1 = 1700;       // 600 == 0.6 ms  -> 0'   
     Delay(500);
 }
 
 void pen_down(){
-    TIM4->CCR1 = 600;      // 1500 == 1.5 ms -> 90'
+    TIM4->CCR1 = 900;      // 1500 == 1.5 ms -> 90'
  80009ae:	4b0c      	ldr	r3, [pc, #48]	; (80009e0 <H+0xc8>)
- 80009b0:	f44f 7216 	mov.w	r2, #600	; 0x258
+ 80009b0:	f44f 7261 	mov.w	r2, #900	; 0x384
  80009b4:	635a      	str	r2, [r3, #52]	; 0x34
 	msTicks++;
 }
@@ -2333,7 +2333,7 @@ static void Delay(__IO uint32_t dlyTicks){
  80009b8:	6823      	ldr	r3, [r4, #0]
  80009ba:	4d0a      	ldr	r5, [pc, #40]	; (80009e4 <H+0xcc>)
  80009bc:	1a9b      	subs	r3, r3, r2
- 80009be:	f5b3 7ffa 	cmp.w	r3, #500	; 0x1f4
+ 80009be:	f5b3 6ffa 	cmp.w	r3, #2000	; 0x7d0
  80009c2:	d3f9      	bcc.n	80009b8 <H+0xa0>
     pen_down();
     counterClockwise_B(15);
@@ -2344,13 +2344,13 @@ static void Delay(__IO uint32_t dlyTicks){
  80009c4:	201e      	movs	r0, #30
  80009c6:	f7ff fcbd 	bl	8000344 <clockwise_A>
     clockwise_B(65);
-    counterClockwise_A(65);
+    clockwise_A(65);
 }
 
 void pen_up(){
-    TIM4->CCR1 = 2500;       // 600 == 0.6 ms  -> 0'   
+    TIM4->CCR1 = 1700;       // 600 == 0.6 ms  -> 0'   
  80009ca:	4b05      	ldr	r3, [pc, #20]	; (80009e0 <H+0xc8>)
- 80009cc:	f640 12c4 	movw	r2, #2500	; 0x9c4
+ 80009cc:	f240 62a4 	movw	r2, #1700	; 0x6a4
  80009d0:	635a      	str	r2, [r3, #52]	; 0x34
 	msTicks++;
 }
@@ -10488,8 +10488,8 @@ void TIM_EncoderInterfaceConfig(TIM_TypeDef* TIMx, uint16_t TIM_EncoderMode,
 void setSysTick(void){
 	// ---------- SysTick timer (1ms) -------- //
 	if (SysTick_Config(SystemCoreClock / 1000)) {
- 800211c:	4a17      	ldr	r2, [pc, #92]	; (800217c <main+0x60>)
- 800211e:	4b18      	ldr	r3, [pc, #96]	; (8002180 <main+0x64>)
+ 800211c:	4a13      	ldr	r2, [pc, #76]	; (800216c <main+0x50>)
+ 800211e:	4b14      	ldr	r3, [pc, #80]	; (8002170 <main+0x54>)
  8002120:	6812      	ldr	r2, [r2, #0]
  8002122:	fba3 1202 	umull	r1, r2, r3, r2
  8002126:	0992      	lsrs	r2, r2, #6
@@ -10508,17 +10508,17 @@ __STATIC_INLINE uint32_t SysTick_Config(uint32_t ticks)
 
 int main(void) {
  800212e:	b510      	push	{r4, lr}
- 8002130:	d222      	bcs.n	8002178 <main+0x5c>
+ 8002130:	d21b      	bcs.n	800216a <main+0x4e>
 
   SysTick->LOAD  = ticks - 1;                                  /* set reload register */
- 8002132:	4b14      	ldr	r3, [pc, #80]	; (8002184 <main+0x68>)
+ 8002132:	4b10      	ldr	r3, [pc, #64]	; (8002174 <main+0x58>)
     \param [in]  priority  Priority to set.
  */
 __STATIC_INLINE void NVIC_SetPriority(IRQn_Type IRQn, uint32_t priority)
 {
   if(IRQn < 0) {
     SCB->SHP[((uint32_t)(IRQn) & 0xF)-4] = ((priority << (8 - __NVIC_PRIO_BITS)) & 0xff); } /* set Priority for Cortex-M  System Interrupts */
- 8002134:	4814      	ldr	r0, [pc, #80]	; (8002188 <main+0x6c>)
+ 8002134:	4910      	ldr	r1, [pc, #64]	; (8002178 <main+0x5c>)
  */
 __STATIC_INLINE uint32_t SysTick_Config(uint32_t ticks)
 {
@@ -10526,26 +10526,41 @@ __STATIC_INLINE uint32_t SysTick_Config(uint32_t ticks)
 
   SysTick->LOAD  = ticks - 1;                                  /* set reload register */
  8002136:	605a      	str	r2, [r3, #4]
-  NVIC_SetPriority (SysTick_IRQn, (1<<__NVIC_PRIO_BITS) - 1);  /* set Priority for Systick Interrupt */
-  SysTick->VAL   = 0;                                          /* Load the SysTick Counter Value */
- 8002138:	2100      	movs	r1, #0
-  SysTick->CTRL  = SysTick_CTRL_CLKSOURCE_Msk |
- 800213a:	2207      	movs	r2, #7
     \param [in]  priority  Priority to set.
  */
 __STATIC_INLINE void NVIC_SetPriority(IRQn_Type IRQn, uint32_t priority)
 {
   if(IRQn < 0) {
     SCB->SHP[((uint32_t)(IRQn) & 0xF)-4] = ((priority << (8 - __NVIC_PRIO_BITS)) & 0xff); } /* set Priority for Cortex-M  System Interrupts */
- 800213c:	24f0      	movs	r4, #240	; 0xf0
- 800213e:	f880 4023 	strb.w	r4, [r0, #35]	; 0x23
+ 8002138:	20f0      	movs	r0, #240	; 0xf0
+  if ((ticks - 1) > SysTick_LOAD_RELOAD_Msk)  return (1);      /* Reload value impossible */
+
+  SysTick->LOAD  = ticks - 1;                                  /* set reload register */
+  NVIC_SetPriority (SysTick_IRQn, (1<<__NVIC_PRIO_BITS) - 1);  /* set Priority for Systick Interrupt */
+  SysTick->VAL   = 0;                                          /* Load the SysTick Counter Value */
+  SysTick->CTRL  = SysTick_CTRL_CLKSOURCE_Msk |
+ 800213a:	2207      	movs	r2, #7
 {
   if ((ticks - 1) > SysTick_LOAD_RELOAD_Msk)  return (1);      /* Reload value impossible */
 
   SysTick->LOAD  = ticks - 1;                                  /* set reload register */
   NVIC_SetPriority (SysTick_IRQn, (1<<__NVIC_PRIO_BITS) - 1);  /* set Priority for Systick Interrupt */
   SysTick->VAL   = 0;                                          /* Load the SysTick Counter Value */
- 8002142:	6099      	str	r1, [r3, #8]
+ 800213c:	2400      	movs	r4, #0
+    \param [in]  priority  Priority to set.
+ */
+__STATIC_INLINE void NVIC_SetPriority(IRQn_Type IRQn, uint32_t priority)
+{
+  if(IRQn < 0) {
+    SCB->SHP[((uint32_t)(IRQn) & 0xF)-4] = ((priority << (8 - __NVIC_PRIO_BITS)) & 0xff); } /* set Priority for Cortex-M  System Interrupts */
+ 800213e:	f881 0023 	strb.w	r0, [r1, #35]	; 0x23
+{
+  if ((ticks - 1) > SysTick_LOAD_RELOAD_Msk)  return (1);      /* Reload value impossible */
+
+  SysTick->LOAD  = ticks - 1;                                  /* set reload register */
+  NVIC_SetPriority (SysTick_IRQn, (1<<__NVIC_PRIO_BITS) - 1);  /* set Priority for Systick Interrupt */
+  SysTick->VAL   = 0;                                          /* Load the SysTick Counter Value */
+ 8002142:	609c      	str	r4, [r3, #8]
   SysTick->CTRL  = SysTick_CTRL_CLKSOURCE_Msk |
  8002144:	601a      	str	r2, [r3, #0]
 	setSysTick();
@@ -10553,69 +10568,28 @@ __STATIC_INLINE void NVIC_SetPriority(IRQn_Type IRQn, uint32_t priority)
  8002146:	f7fe f89d 	bl	8000284 <config_PWM>
     gpio_init_motor();
  800214a:	f7fe f87f 	bl	800024c <gpio_init_motor>
-        
-    }
-}
-
-void pad_init(){
     clockwise_B(65);
  800214e:	2041      	movs	r0, #65	; 0x41
  8002150:	f7fe fa64 	bl	800061c <clockwise_B>
-    counterClockwise_A(65);
+    clockwise_A(65);
  8002154:	2041      	movs	r0, #65	; 0x41
- 8002156:	f7fe f9ab 	bl	80004b0 <counterClockwise_A>
-}
-
-void pen_up(){
-    TIM4->CCR1 = 2500;       // 600 == 0.6 ms  -> 0'   
- 800215a:	4a0c      	ldr	r2, [pc, #48]	; (800218c <main+0x70>)
-	msTicks++;
-}
-
-//  Delays number of Systicks (happens every 1 ms)
-static void Delay(__IO uint32_t dlyTicks){                                              
-  uint32_t curTicks = msTicks;
- 800215c:	4b0c      	ldr	r3, [pc, #48]	; (8002190 <main+0x74>)
-    clockwise_B(65);
+ 8002156:	f7fe f8f5 	bl	8000344 <clockwise_A>
+    counterClockwise_B(65);
+ 800215a:	2041      	movs	r0, #65	; 0x41
+ 800215c:	f7fe fb08 	bl	8000770 <counterClockwise_B>
     counterClockwise_A(65);
-}
-
-void pen_up(){
-    TIM4->CCR1 = 2500;       // 600 == 0.6 ms  -> 0'   
- 800215e:	f640 11c4 	movw	r1, #2500	; 0x9c4
- 8002162:	6351      	str	r1, [r2, #52]	; 0x34
-	msTicks++;
-}
-
-//  Delays number of Systicks (happens every 1 ms)
-static void Delay(__IO uint32_t dlyTicks){                                              
-  uint32_t curTicks = msTicks;
- 8002164:	681a      	ldr	r2, [r3, #0]
-  while ((msTicks - curTicks) < dlyTicks);
- 8002166:	6819      	ldr	r1, [r3, #0]
- 8002168:	1a89      	subs	r1, r1, r2
- 800216a:	f5b1 7ffa 	cmp.w	r1, #500	; 0x1f4
- 800216e:	d3fa      	bcc.n	8002166 <main+0x4a>
-	config_PWM();
-    gpio_init_motor();
-
-    pad_init();
-    pen_up();
-    H();
- 8002170:	f7fe fbd2 	bl	8000918 <H>
+ 8002160:	2041      	movs	r0, #65	; 0x41
+ 8002162:	f7fe f9a5 	bl	80004b0 <counterClockwise_A>
         Delay(500);
         counterClockwise_B(10);*/
 
     
 	return 0;
 }
- 8002174:	2000      	movs	r0, #0
- 8002176:	bd10      	pop	{r4, pc}
- 8002178:	e7fe      	b.n	8002178 <main+0x5c>
- 800217a:	bf00      	nop
- 800217c:	20000010 	.word	0x20000010
- 8002180:	10624dd3 	.word	0x10624dd3
- 8002184:	e000e010 	.word	0xe000e010
- 8002188:	e000ed00 	.word	0xe000ed00
- 800218c:	40000800 	.word	0x40000800
- 8002190:	20000024 	.word	0x20000024
+ 8002166:	4620      	mov	r0, r4
+ 8002168:	bd10      	pop	{r4, pc}
+ 800216a:	e7fe      	b.n	800216a <main+0x4e>
+ 800216c:	20000010 	.word	0x20000010
+ 8002170:	10624dd3 	.word	0x10624dd3
+ 8002174:	e000e010 	.word	0xe000e010
+ 8002178:	e000ed00 	.word	0xe000ed00

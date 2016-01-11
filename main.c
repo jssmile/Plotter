@@ -25,7 +25,7 @@ PWM_Servo Example using the Timer (TIM) peripheral
 */
 #include <stdio.h>
 #include "stm32f4xx.h"
-#define  PHASE_DELAY   5
+#define  PHASE_DELAY   2
 
 volatile uint32_t msTicks;      //counts 1ms timeTicks
 void SysTick_Handler(void) {
@@ -119,7 +119,7 @@ void config_PWM(void) {
         - We use the µs for a more precise adjustment of the duty cycle
      
      */
-    uint16_t PrescalerValue = (uint16_t) 72;
+    uint16_t PrescalerValue = (uint16_t) 84;
 
     // Time Base Configuration
     TIM_TimeBaseStructure.TIM_Period        = 19999;
@@ -164,40 +164,40 @@ void clockwise_A(int n)
                    GPIO_Pin_13 | GPIO_Pin_14);
     for(int i = 0; i < n; i++) {
         //step1
-        GPIO_SetBits(GPIOG, GPIO_Pin_9);
+        GPIO_SetBits(GPIOG, GPIO_Pin_14);
         Delay(PHASE_DELAY);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_10);
+        GPIO_ResetBits(GPIOG, GPIO_Pin_13);
         Delay(PHASE_DELAY);
-        GPIO_SetBits(GPIOG, GPIO_Pin_13);
+        GPIO_SetBits(GPIOG, GPIO_Pin_10);
         Delay(PHASE_DELAY);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_14);
+        GPIO_ResetBits(GPIOG, GPIO_Pin_9);
         Delay(PHASE_DELAY);
         //step2
-        GPIO_ResetBits(GPIOG, GPIO_Pin_9);
-        Delay(PHASE_DELAY);
-        GPIO_SetBits(GPIOG, GPIO_Pin_10);
+        GPIO_ResetBits(GPIOG, GPIO_Pin_14);
         Delay(PHASE_DELAY);
         GPIO_SetBits(GPIOG, GPIO_Pin_13);
         Delay(PHASE_DELAY);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_14);
-        Delay(PHASE_DELAY);
-        //step3
-        GPIO_ResetBits(GPIOG, GPIO_Pin_9);
-        Delay(PHASE_DELAY);
         GPIO_SetBits(GPIOG, GPIO_Pin_10);
         Delay(PHASE_DELAY);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_13);
+        GPIO_ResetBits(GPIOG, GPIO_Pin_9);
         Delay(PHASE_DELAY);
-        GPIO_SetBits(GPIOG, GPIO_Pin_14);
+        //step3
+        GPIO_ResetBits(GPIOG, GPIO_Pin_14);
         Delay(PHASE_DELAY);
-        //step4
-        GPIO_SetBits(GPIOG, GPIO_Pin_9);
+        GPIO_SetBits(GPIOG, GPIO_Pin_13);
         Delay(PHASE_DELAY);
         GPIO_ResetBits(GPIOG, GPIO_Pin_10);
         Delay(PHASE_DELAY);
+        GPIO_SetBits(GPIOG, GPIO_Pin_9);
+        Delay(PHASE_DELAY);
+        //step4
+        GPIO_SetBits(GPIOG, GPIO_Pin_14);
+        Delay(PHASE_DELAY);
         GPIO_ResetBits(GPIOG, GPIO_Pin_13);
         Delay(PHASE_DELAY);
-        GPIO_SetBits(GPIOG, GPIO_Pin_14);
+        GPIO_ResetBits(GPIOG, GPIO_Pin_10);
+        Delay(PHASE_DELAY);
+        GPIO_SetBits(GPIOG, GPIO_Pin_9);
         Delay(PHASE_DELAY);
     }
 }
@@ -206,43 +206,42 @@ void counterClockwise_A(int n)
     GPIO_ResetBits(GPIOG, GPIO_Pin_9 | GPIO_Pin_10 | \
                    GPIO_Pin_13 | GPIO_Pin_14);
     for(int i = 0; i < n; i++) {
-        //step1
-        GPIO_SetBits(GPIOG, GPIO_Pin_14);
+         //step1
+        GPIO_SetBits(GPIOG, GPIO_Pin_9);
         Delay(PHASE_DELAY);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_13);
+        GPIO_ResetBits(GPIOG, GPIO_Pin_10);
         Delay(PHASE_DELAY);
-        GPIO_SetBits(GPIOG, GPIO_Pin_10);
+        GPIO_SetBits(GPIOG, GPIO_Pin_13);
         Delay(PHASE_DELAY);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_9);
+        GPIO_ResetBits(GPIOG, GPIO_Pin_14);
         Delay(PHASE_DELAY);
         //step2
-        GPIO_ResetBits(GPIOG, GPIO_Pin_14);
-        Delay(PHASE_DELAY);
-        GPIO_SetBits(GPIOG, GPIO_Pin_13);
+        GPIO_ResetBits(GPIOG, GPIO_Pin_9);
         Delay(PHASE_DELAY);
         GPIO_SetBits(GPIOG, GPIO_Pin_10);
         Delay(PHASE_DELAY);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_9);
-        Delay(PHASE_DELAY);
-        //step3
-        GPIO_ResetBits(GPIOG, GPIO_Pin_14);
-        Delay(PHASE_DELAY);
         GPIO_SetBits(GPIOG, GPIO_Pin_13);
         Delay(PHASE_DELAY);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_10);
+        GPIO_ResetBits(GPIOG, GPIO_Pin_14);
         Delay(PHASE_DELAY);
-        GPIO_SetBits(GPIOG, GPIO_Pin_9);
+        //step3
+        GPIO_ResetBits(GPIOG, GPIO_Pin_9);
         Delay(PHASE_DELAY);
-        //step4
-        GPIO_SetBits(GPIOG, GPIO_Pin_14);
+        GPIO_SetBits(GPIOG, GPIO_Pin_10);
         Delay(PHASE_DELAY);
         GPIO_ResetBits(GPIOG, GPIO_Pin_13);
         Delay(PHASE_DELAY);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_10);
+        GPIO_SetBits(GPIOG, GPIO_Pin_14);
         Delay(PHASE_DELAY);
+        //step4
         GPIO_SetBits(GPIOG, GPIO_Pin_9);
         Delay(PHASE_DELAY);
-        
+        GPIO_ResetBits(GPIOG, GPIO_Pin_10);
+        Delay(PHASE_DELAY);
+        GPIO_ResetBits(GPIOG, GPIO_Pin_13);
+        Delay(PHASE_DELAY);
+        GPIO_SetBits(GPIOG, GPIO_Pin_14);
+        Delay(PHASE_DELAY);        
     }
 }
 
@@ -336,17 +335,17 @@ void counterClockwise_B(int n)
 
 void pad_init(){
     clockwise_B(65);
-    counterClockwise_A(65);
+    clockwise_A(65);
 }
 
 void pen_up(){
-    TIM4->CCR1 = 2500;       // 600 == 0.6 ms  -> 0'   
+    TIM4->CCR1 = 1700;       // 600 == 0.6 ms  -> 0'   
     Delay(500);
 }
 
 void pen_down(){
-    TIM4->CCR1 = 600;      // 1500 == 1.5 ms -> 90'
-    Delay(500);
+    TIM4->CCR1 = 900;      // 1500 == 1.5 ms -> 90'
+    Delay(2000);
 }
 
 //Write H
@@ -371,10 +370,16 @@ int main(void) {
 	setSysTick();
 	config_PWM();
     gpio_init_motor();
-
-    pad_init();
+    clockwise_B(65);
+    clockwise_A(65);
+    counterClockwise_B(65);
+    counterClockwise_A(65);
+    //pad_init();    
+    /*while(1){
     pen_up();
-    H();
+    pen_down();
+}*/
+    //H();
         /*counterClockwise_A(10);
         clockwise_A(10);
         clockwise_B(10);
