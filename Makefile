@@ -1,116 +1,144 @@
-# STM32F4-Discovery Makefile for Mac OSX
+TARGET:=FreeRTOS
+# TODO change to your ARM gcc toolchain path
+TOOLCHAIN_ROOT:=/usr/local/csl/gcc-arm-none-eabi-4_7-2013q3
+TOOLCHAIN_PATH:=$(TOOLCHAIN_ROOT)/bin
+TOOLCHAIN_PREFIX:=arm-none-eabi
 
-SRCS=$(wildcard *.c) 
-# Add assembly source files here or use $(wildcard *.s) for all .s files
-S_SRCS = CortexM4asmOps.s
+# Optimization level, can be [0, 1, 2, 3, s].
+OPTLVL:=0
+DBG:=-g
 
+FREERTOS:=$(CURDIR)/FreeRTOS
+STARTUP:=$(CURDIR)/hardware
+LINKER_SCRIPT:=$(CURDIR)/Utilities/stm32_flash.ld
 
-# Project name
-PROJ_NAME = blinky
-OUTPATH = build
+INCLUDE=-I$(CURDIR)/hardware
+INCLUDE+=-I$(FREERTOS)/include
+INCLUDE+=-I$(FREERTOS)/portable/GCC/ARM_CM4F
+INCLUDE+=-I$(CURDIR)/Libraries/CMSIS/Device/ST/STM32F4xx/Include
+INCLUDE+=-I$(CURDIR)/Libraries/CMSIS/Include
+INCLUDE+=-I$(CURDIR)/Libraries/STM32F4-Discovery
+INCLUDE+=-I$(CURDIR)/Libraries/STM32F4xx_StdPeriph_Driver/inc
+INCLUDE+=-I$(CURDIR)/Libraries/servo_motor
+INCLUDE+=-I$(CURDIR)/Libraries/usart
+INCLUDE+=-I$(CURDIR)/config
+INCLUDE+=-I$(CURDIR)/epw_lib
+INCLUDE+=-I$(CURDIR)/sdio_lib
+#INCLUDE+=-I$(CURDIR)/fat_lib
 
-OUTPATH := $(abspath $(OUTPATH))
-BASEDIR := $(abspath ./)
-MKDIR_P = mkdir -p
+BUILD_DIR = $(CURDIR)/build
+BIN_DIR = $(CURDIR)/binary
 
+# vpath is used so object files are written to the current directory instead
+# of the same directory as their source files
+vpath %.c $(CURDIR)/Libraries/STM32F4xx_StdPeriph_Driver/src \
+	  $(CURDIR)/Libraries/STM32F4-Discovery \
+	  $(CURDIR)/Libraries/servo_motor \
+	  $(CURDIR)/Libraries/usart \
+	  $(CURDIR)/Libraries/syscall $(CURDIR)/hardware $(FREERTOS) \
+	  $(FREERTOS)/portable/MemMang $(FREERTOS)/portable/GCC/ARM_CM4F \
+	  $(CURDIR)/epw_lib \
+	  $(CURDIR)/sdio_lib
+#	  $(CURDIR)/fat_lib
 
-###################################################
+vpath %.s $(STARTUP)
+ASRC=startup_stm32f4xx.s
 
-# Check for valid float argument
-# NOTE that you have to run make clan after
-# changing these as hardfloat and softfloat are not
-# binary compatible
-ifneq ($(FLOAT_TYPE), hard)
-ifneq ($(FLOAT_TYPE), soft)
-#override FLOAT_TYPE = hard
-override FLOAT_TYPE = soft
-endif
-endif
+# Project Source Files
+SRC+=stm32f4xx_it.c
+SRC+=system_stm32f4xx.c
+SRC+=main.c
+SRC+=syscalls.c
 
-###################################################
+# STM32F4-Discovery
+SRC+=stm32f4_discovery.c
 
-AS=$(BINPATH)arm-none-eabi-as
-CC=$(BINPATH)arm-none-eabi-gcc
-LD=$(BINPATH)arm-none-eabi-gcc
-OBJCOPY=$(BINPATH)arm-none-eabi-objcopy
-OBJDUMP=$(BINPATH)arm-none-eabi-objdump
-SIZE=$(BINPATH)arm-none-eabi-size
+#-----Self-Defined-----
+# Servo Motor
+SRC+=servo_motor.c
+# Usart
+#SRC+=usart.c
+#----------------------
 
-LINKER_SCRIPT = stm32_flash.ld
+# EPW libraries
+#SRC+=transfer.c
+SRC+=uart.c
+SRC+=command.c
+SRC+=motor.c
+SRC+=encoder.c
+SRC+=linear_actuator.c
+#----------------------
 
-CPU = -mcpu=cortex-m4 -mthumb
+# sdio
+SRC+=sdio_debug.c
+SRC+=stm32f4_discovery_sdio_sd.c
+SRC+=stm32f4_discovery_sdio_sd_LowLevel.c
+# fat
 
-CFLAGS  = $(CPU) -c -std=gnu99 -g -O2 -Wall
-LDFLAGS  = $(CPU) -mlittle-endian -mthumb-interwork -nostartfiles -Wl,--gc-sections,-Map=$(OUTPATH)/$(PROJ_NAME).map,--cref --specs=nano.specs
+# FreeRTOS Source Files
+SRC+=port.c
+SRC+=list.c
+SRC+=queue.c
+SRC+=tasks.c
+SRC+=timers.c
+SRC+=heap_1.c
 
-ifeq ($(FLOAT_TYPE), hard)
-CFLAGS += -fsingle-precision-constant -Wdouble-promotion
-CFLAGS += -mfpu=fpv4-sp-d16 -mfloat-abi=hard
-else
-CFLAGS += -msoft-float
-endif
+# Standard Peripheral Source Files
+SRC+=stm32f4xx_syscfg.c
+SRC+=misc.c
+#SRC+=stm32f4xx_adc.c
+#SRC+=stm32f4xx_dac.c
+SRC+=stm32f4xx_dma.c
+SRC+=stm32f4xx_exti.c
+#SRC+=stm32f4xx_flash.c
+SRC+=stm32f4xx_sdio.c
+SRC+=stm32f4xx_gpio.c
+SRC+=stm32f4xx_i2c.c
+SRC+=stm32f4xx_rcc.c
+#SRC+=stm32f4xx_spi.c
+SRC+=stm32f4xx_tim.c
+SRC+=stm32f4xx_usart.c
+SRC+=stm32f4xx_rng.c
 
-# Default to STM32F40_41xxx if no device is passed
-ifeq ($(DEVICE_DEF), )
-DEVICE_DEF = STM32F40_41xxx
-endif
+CDEFS=-DUSE_STDPERIPH_DRIVER
+CDEFS+=-DSTM32F4XX
+CDEFS+=-DHSE_VALUE=8000000
+CDEFS+=-D__FPU_PRESENT=1
+CDEFS+=-D__FPU_USED=1
+CDEFS+=-DARM_MATH_CM4
 
-CFLAGS += -D$(DEVICE_DEF)
+MCUFLAGS=-mcpu=cortex-m4 -mthumb -mfloat-abi=hard
+COMMONFLAGS=-O$(OPTLVL) $(DBG) -Wall
+CFLAGS=$(COMMONFLAGS) $(MCUFLAGS) $(INCLUDE) $(CDEFS) -std=gnu99
+LDLIBS=$(TOOLCHAIN_ROOT)/arm-none-eabi/lib/armv7e-m/fpu/libc_s.a $(TOOLCHAIN_ROOT)/arm-none-eabi/lib/armv7e-m/fpu/libm.a
+LDFLAGS=$(COMMONFLAGS) -fno-exceptions -ffunction-sections -fdata-sections -nostartfiles -Wl,--gc-sections,-T$(LINKER_SCRIPT) -v
 
-vpath %.a lib
+CC=$(TOOLCHAIN_PATH)/$(TOOLCHAIN_PREFIX)-gcc
+LD=$(TOOLCHAIN_PATH)/$(TOOLCHAIN_PREFIX)-gcc
+OBJCOPY=$(TOOLCHAIN_PATH)/$(TOOLCHAIN_PREFIX)-objcopy
+AS=$(TOOLCHAIN_PATH)/$(TOOLCHAIN_PREFIX)-as
+AR=$(TOOLCHAIN_PATH)/$(TOOLCHAIN_PREFIX)-ar
+GDB=$(TOOLCHAIN_PATH)/$(TOOLCHAIN_PREFIX)-gdb
 
+OBJ = $(SRC:%.c=$(BUILD_DIR)/%.o)
 
-# Includes
-INCLUDE_PATHS = -I$(BASEDIR)/inc -I$(BASEDIR)/lib/cmsis/stm32f4xx -I$(BASEDIR)/lib/cmsis/include -I$(BASEDIR)
-INCLUDE_PATHS += -I$(BASEDIR)/lib/Conf
-INCLUDE_PATHS += -I$(BASEDIR)/lib/STM32F4xx_StdPeriph_Driver/inc
+$(BUILD_DIR)/%.o: %.c
+	$(CC) $(CFLAGS) $< -c -o $@
 
-# Library paths
-LIBPATHS = -L$(BASEDIR)/lib/STM32F4xx_StdPeriph_Driver
+all: $(OBJ)
+	$(AS) -o $(ASRC:%.s=$(BUILD_DIR)/%.o) $(STARTUP)/$(ASRC)
+	$(CC) -o $(BIN_DIR)/$(TARGET).elf $(LDFLAGS) $(OBJ) $(ASRC:%.s=$(BUILD_DIR)/%.o) $(LDLIBS)
+	$(OBJCOPY) -O ihex $(BIN_DIR)/$(TARGET).elf $(BIN_DIR)/$(TARGET).hex
+	$(OBJCOPY) -O binary $(BIN_DIR)/$(TARGET).elf $(BIN_DIR)/$(TARGET).bin
 
-# Libraries to link
-LIBS = -lstdperiph -lc -lgcc -lnosys
-
-OBJS = $(SRCS:.c=.o)
-OBJS += $(S_SRCS:.s=.o)
-
-###################################################
-
-.PHONY: lib proj
-
-all: dir lib proj
-	$(SIZE) $(OUTPATH)/$(PROJ_NAME).elf
-
-lib:
-	$(MAKE) -C lib FLOAT_TYPE=$(FLOAT_TYPE) BINPATH=$(BINPATH) DEVICE_DEF=$(DEVICE_DEF) BASEDIR=$(BASEDIR)
-
-proj: $(OUTPATH)/$(PROJ_NAME).elf
-
-.s.o:
-	$(AS) $(CPU) -o $(addprefix $(OUTPATH)/, $@) $<
-
-.c.o:
-	$(CC) $(CFLAGS) -std=gnu99 $(INCLUDE_PATHS) -o $(addprefix  $(OUTPATH)/, $@) $<
-
-$(OUTPATH)/$(PROJ_NAME).elf: $(OBJS)
-	$(LD) $(LDFLAGS) -T$(LINKER_SCRIPT) $(LIBPATHS) -o $@ $(addprefix $(OUTPATH)/, $^) $(LIBS) $(LD_SYS_LIBS)
-	$(OBJCOPY) -O ihex $(OUTPATH)/$(PROJ_NAME).elf $(OUTPATH)/$(PROJ_NAME).hex
-	$(OBJCOPY) -O binary $(OUTPATH)/$(PROJ_NAME).elf $(OUTPATH)/$(PROJ_NAME).bin
-	$(OBJDUMP) -S --disassemble $(OUTPATH)/$(PROJ_NAME).elf > $(OUTPATH)/$(PROJ_NAME).dis
-
-dir:
-	$(MKDIR_P) $(OUTPATH)
+.PHONY: clean
 
 clean:
-	rm -f $(OUTPATH)/*.o
-	rm -f $(OUTPATH)/$(PROJ_NAME).elf
-	rm -f $(OUTPATH)/$(PROJ_NAME).hex
-	rm -f $(OUTPATH)/$(PROJ_NAME).bin
-	rm -f $(OUTPATH)/$(PROJ_NAME).dis
-	rm -f $(OUTPATH)/$(PROJ_NAME).map
-	# Remove the following line if you don't want to clean the Libraries as well
-	$(MAKE) clean -C lib
+	rm -f $(OBJ)
+	rm -f $(ASRC:%.s=$(BUILD_DIR)/%.o)
+	rm -f $(BIN_DIR)/$(TARGET).elf
+	rm -f $(BIN_DIR)/$(TARGET).hex
+	rm -f $(BIN_DIR)/$(TARGET).bin
 
 flash:
-	st-flash write build/$(PROJ_NAME).bin 0x08000000
-	
+	st-flash write $(BIN_DIR)/$(TARGET).bin 0x8000000

@@ -25,25 +25,28 @@ PWM_Servo Example using the Timer (TIM) peripheral
 */
 #include <stdio.h>
 #include "stm32f4xx.h"
-#define  PHASE_DELAY   2
+#include "FreeRTOS.h"
+#include "task.h"
+#define  PHASE_vTaskDelay   2
 
-volatile uint32_t msTicks;      //counts 1ms timeTicks
+/*volatile uint32_t msTicks;      //counts 1ms timeTicks
 void SysTick_Handler(void) {
-	msTicks++;
-}
+    msTicks++;
+}*/
 
-//  Delays number of Systicks (happens every 1 ms)
-static void Delay(__IO uint32_t dlyTicks){                                              
+//  vTaskDelays number of Systicks (happens every 1 ms)
+/*static void vTaskDelay(__IO uint32_t dlyTicks){                                              
   uint32_t curTicks = msTicks;
   while ((msTicks - curTicks) < dlyTicks);
-}
+}*/
+void H(void);
 
 void setSysTick(void){
-	// ---------- SysTick timer (1ms) -------- //
-	if (SysTick_Config(SystemCoreClock / 1000)) {
-		// Capture error
-		while (1){};
-	}
+    // ---------- SysTick timer (1ms) -------- //
+    if (SysTick_Config(SystemCoreClock / 1000)) {
+        // Capture error
+        while (1){};
+    }
 }
 
 void gpio_init_motor(){
@@ -165,40 +168,40 @@ void clockwise_A(int n)
     for(int i = 0; i < n; i++) {
         //step1
         GPIO_SetBits(GPIOG, GPIO_Pin_14);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_13);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_SetBits(GPIOG, GPIO_Pin_10);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_9);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         //step2
         GPIO_ResetBits(GPIOG, GPIO_Pin_14);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_SetBits(GPIOG, GPIO_Pin_13);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_SetBits(GPIOG, GPIO_Pin_10);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_9);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         //step3
         GPIO_ResetBits(GPIOG, GPIO_Pin_14);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_SetBits(GPIOG, GPIO_Pin_13);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_10);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_SetBits(GPIOG, GPIO_Pin_9);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         //step4
         GPIO_SetBits(GPIOG, GPIO_Pin_14);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_13);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_10);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_SetBits(GPIOG, GPIO_Pin_9);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
     }
 }
 void counterClockwise_A(int n)
@@ -208,40 +211,40 @@ void counterClockwise_A(int n)
     for(int i = 0; i < n; i++) {
          //step1
         GPIO_SetBits(GPIOG, GPIO_Pin_9);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_10);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_SetBits(GPIOG, GPIO_Pin_13);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_14);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         //step2
         GPIO_ResetBits(GPIOG, GPIO_Pin_9);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_SetBits(GPIOG, GPIO_Pin_10);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_SetBits(GPIOG, GPIO_Pin_13);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_14);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         //step3
         GPIO_ResetBits(GPIOG, GPIO_Pin_9);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_SetBits(GPIOG, GPIO_Pin_10);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_13);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_SetBits(GPIOG, GPIO_Pin_14);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         //step4
         GPIO_SetBits(GPIOG, GPIO_Pin_9);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_10);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_13);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_SetBits(GPIOG, GPIO_Pin_14);
-        Delay(PHASE_DELAY);        
+        vTaskDelay(PHASE_vTaskDelay);        
     }
 }
 
@@ -252,40 +255,40 @@ void clockwise_B(int n)
     for(int i = 0; i < n; i++) {
         //step1
         GPIO_SetBits(GPIOG, GPIO_Pin_5);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_6);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_SetBits(GPIOG, GPIO_Pin_7);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_8);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         //step2
         GPIO_ResetBits(GPIOG, GPIO_Pin_5);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_SetBits(GPIOG, GPIO_Pin_6);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_SetBits(GPIOG, GPIO_Pin_7);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_8);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         //step3
         GPIO_ResetBits(GPIOG, GPIO_Pin_5);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_SetBits(GPIOG, GPIO_Pin_6);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_7);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_SetBits(GPIOG, GPIO_Pin_8);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         //step4
         GPIO_SetBits(GPIOG, GPIO_Pin_5);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_6);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_7);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_SetBits(GPIOG, GPIO_Pin_8);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
     }
 }
 void counterClockwise_B(int n)
@@ -295,40 +298,40 @@ void counterClockwise_B(int n)
     for(int i = 0; i < n; i++) {
         //step1
         GPIO_SetBits(GPIOG, GPIO_Pin_8);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_7);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_SetBits(GPIOG, GPIO_Pin_6);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_5);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         //step2
         GPIO_ResetBits(GPIOG, GPIO_Pin_8);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_SetBits(GPIOG, GPIO_Pin_7);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_SetBits(GPIOG, GPIO_Pin_6);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_5);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         //step3
         GPIO_ResetBits(GPIOG, GPIO_Pin_8);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_SetBits(GPIOG, GPIO_Pin_7);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_6);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_SetBits(GPIOG, GPIO_Pin_5);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         //step4
         GPIO_SetBits(GPIOG, GPIO_Pin_8);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_7);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_6);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         GPIO_SetBits(GPIOG, GPIO_Pin_5);
-        Delay(PHASE_DELAY);
+        vTaskDelay(PHASE_vTaskDelay);
         
     }
 }
@@ -340,55 +343,80 @@ void pad_init(){
 
 void pen_up(){
     TIM4->CCR1 = 1700;       // 600 == 0.6 ms  -> 0'   
-    Delay(500);
+    vTaskDelay(500);
 }
 
 void pen_down(){
     TIM4->CCR1 = 900;      // 1500 == 1.5 ms -> 90'
-    Delay(2000);
+    vTaskDelay(500);
 }
 
 //Write H
-void H(){
-    pen_up();
-    counterClockwise_B(20);
-    clockwise_A(20);
+void H(void){
+    for(;;){
     pen_down();
-    clockwise_A(30);
+    counterClockwise_A(65);
+    counterClockwise_B(65);
+    clockwise_A(65);
+    clockwise_B(65);
     pen_up();
-    counterClockwise_A(15);
-    pen_down();
-    counterClockwise_B(15);
-    pen_up();
-    counterClockwise_A(15);
-    pen_down();
-    clockwise_A(30);
-    pen_up();
+    }
+    vTaskDelete(NULL);
 }
 
 int main(void) {
-	setSysTick();
-	config_PWM();
+    setSysTick();
+    config_PWM();
     gpio_init_motor();
-    clockwise_B(65);
-    clockwise_A(65);
-    counterClockwise_B(65);
-    counterClockwise_A(65);
-    //pad_init();    
-    /*while(1){
     pen_up();
-    pen_down();
-}*/
-    //H();
-        /*counterClockwise_A(10);
-        clockwise_A(10);
-        clockwise_B(10);
-        Delay(500);
-        counterClockwise_B(10);*/
+    pad_init();
 
-    
-	return 0;
+    //H();
+    /* Create a task to button check. */
+    xTaskCreate(H,(signed portCHAR *) "AutoWrite", 512, NULL, tskIDLE_PRIORITY + 5, NULL );
+
+  /* Start running the tasks. */
+    vTaskStartScheduler();
+    return 0;
 }
 
+/* Blank definition */
+void vApplicationTickHook(void) {
+}
 
+/* vApplicationMallocFailedHook() will only be called if
+   configUSE_MALLOC_FAILED_HOOK is set to 1 in FreeRTOSConfig.h.  It is a hook
+   function that will get called if a call to pvPortMalloc() fails.
+   pvPortMalloc() is called internally by the kernel whenever a task, queue,
+   timer or semaphore is created.  It is also called by various parts of the
+   demo application.  If heap_1.c or heap_2.c are used, then the size of the
+   heap available to pvPortMalloc() is defined by configTOTAL_HEAP_SIZE in
+   FreeRTOSConfig.h, and the xPortGetFreeHeapSize() API function can be used
+   to query the size of free heap space that remains (although it does not
+   provide information on how the remaining heap might be fragmented). */
+void vApplicationMallocFailedHook(void) {
+  taskDISABLE_INTERRUPTS();
+  for(;;);
+}
 
+/* vApplicationIdleHook() will only be called if configUSE_IDLE_HOOK is set
+   to 1 in FreeRTOSConfig.h.  It will be called on each iteration of the idle
+   task.  It is essential that code added to this hook function never attempts
+   to block in any way (for example, call xQueueReceive() with a block time
+   specified, or call vTaskDelay()).  If the application makes use of the
+   vTaskDelete() API function (as this demo application does) then it is also
+   important that vApplicationIdleHook() is permitted to return to its calling
+   function, because it is the responsibility of the idle task to clean up
+   memory allocated by the kernel to any task that has since been deleted. */
+void vApplicationIdleHook(void) {
+}
+
+void vApplicationStackOverflowHook(xTaskHandle pxTask, signed char *pcTaskName) {
+  (void) pcTaskName;
+  (void) pxTask;
+  /* Run time stack overflow checking is performed if
+     configCHECK_FOR_STACK_OVERFLOW is defined to 1 or 2.  This hook
+     function is called if a stack overflow is detected. */
+  taskDISABLE_INTERRUPTS();
+  for(;;);
+}
