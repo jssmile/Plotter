@@ -22,9 +22,8 @@ INCLUDE+=-I$(CURDIR)/Libraries/STM32F4xx_StdPeriph_Driver/inc
 INCLUDE+=-I$(CURDIR)/Libraries/servo_motor
 INCLUDE+=-I$(CURDIR)/Libraries/usart
 INCLUDE+=-I$(CURDIR)/config
-INCLUDE+=-I$(CURDIR)/epw_lib
 INCLUDE+=-I$(CURDIR)/sdio_lib
-#INCLUDE+=-I$(CURDIR)/fat_lib
+INCLUDE+=-I$(CURDIR)/motor
 
 BUILD_DIR = $(CURDIR)/build
 BIN_DIR = $(CURDIR)/binary
@@ -37,9 +36,8 @@ vpath %.c $(CURDIR)/Libraries/STM32F4xx_StdPeriph_Driver/src \
 	  $(CURDIR)/Libraries/usart \
 	  $(CURDIR)/Libraries/syscall $(CURDIR)/hardware $(FREERTOS) \
 	  $(FREERTOS)/portable/MemMang $(FREERTOS)/portable/GCC/ARM_CM4F \
-	  $(CURDIR)/epw_lib \
-	  $(CURDIR)/sdio_lib
-#	  $(CURDIR)/fat_lib
+	  $(CURDIR)/sdio_lib \
+	  $(CURDIR)/motor
 
 vpath %.s $(STARTUP)
 ASRC=startup_stm32f4xx.s
@@ -56,17 +54,9 @@ SRC+=stm32f4_discovery.c
 #-----Self-Defined-----
 # Servo Motor
 SRC+=servo_motor.c
+SRC+=motor.c
 # Usart
 #SRC+=usart.c
-#----------------------
-
-# EPW libraries
-#SRC+=transfer.c
-SRC+=uart.c
-SRC+=command.c
-SRC+=motor.c
-SRC+=encoder.c
-SRC+=linear_actuator.c
 #----------------------
 
 # sdio
