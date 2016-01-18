@@ -59,41 +59,6 @@ void config_PWM(void) {
     GPIO_PinAFConfig(GPIOB, GPIO_PinSource6, GPIO_AF_TIM4);
     GPIO_PinAFConfig(GPIOB, GPIO_PinSource7, GPIO_AF_TIM4);
     
-    /* Setup TIM / PWM values
-     Servo Requirements:  (May be different for your servo)
-        - 50Hz (== 20ms) PWM signal
-        - 0.6 - 2.1 ms Duty Cycle
-     
-     1. Determine Required Timer_Freq.
-            TIM_Period = (Timer_Freq. / PWM_Freq) - 1
-     
-            - We need a period of 20ms (or 20000µs) and our PWM_Freq = 50Hz (i.e. 1/20ms)
-            - See NOTES, for why we use µs
-            TIM_Period = 20000 - 1 = 19999  (since its 0 offset)
-     
-            Timer_Freq = (TIM_Period + 1) * PWM_Freq.
-            Timer_Freq = (19999 + 1) * 50
-            Timer_Freq = 1000000 = 1MHz
-     
-     2. Determine Pre-Scaler
-        APB1 clock frequency:
-            - SYS_CLK/4 when prescaler == 1 (i.e. 168MHz / 4 = 42MHz)
-            - SYS_CLK/2 when prescaler != 1 (i.e. 168MHz / 2 = 84MHz)
-     
-        Prescaler = APB1_Freq / Timer_Freq
-        Prescaler = 84 MHz / 1 MHz
-        Prescaler = 84
-     
-        For our example, we can prescale the TIM clock by 84, which gives us a Timer_Freq of 1MHz
-            Timer_Freq = 84 MHz / 84 = 1 MHz
-        So the TIMx_CNT register will increase by 1 000 000 ticks every second. When TIMx_CNT is increased by 1 that is 1 µs. So if we want a duty cycle of 1.5ms (1500 µs) then we can set our CCRx register to 1500.
-     
-     NOTES:
-        - TIMx_CNT Register is 16 bits, i.e. we can count from 0 to (2^16)-1 = 65535
-        - If the period, TIMx_ARR, is greater than the max TIMx_CNT value (65535), then we need to choose a larger prescaler value in order to slow down the count.
-        - We use the µs for a more precise adjustment of the duty cycle
-     
-     */
     uint16_t PrescalerValue = (uint16_t) 84;
 
     // Time Base Configuration
@@ -133,12 +98,10 @@ void config_PWM(void) {
  *    3  0  1  0  1
  *    4  1  0  0  1
 */
-void clockwise_A(int n)
+
+void X_clockwise()
 {
-    GPIO_ResetBits(GPIOG, GPIO_Pin_9 | GPIO_Pin_10 | \
-                   GPIO_Pin_13 | GPIO_Pin_14);
-    for(int i = 0; i < n; i++) {
-        //step1
+        //step1 
         GPIO_SetBits(GPIOG, GPIO_Pin_14);
         Delay(PHASE_Delay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_13);
@@ -174,6 +137,142 @@ void clockwise_A(int n)
         Delay(PHASE_Delay);
         GPIO_SetBits(GPIOG, GPIO_Pin_9);
         Delay(PHASE_Delay);
+}
+
+void X_counterclockwise()
+{
+        int t2 =2;
+        //step1 X
+        GPIO_SetBits(GPIOG, GPIO_Pin_9);
+        Delay(t2);
+        GPIO_ResetBits(GPIOG, GPIO_Pin_10);
+        Delay(t2);
+        GPIO_SetBits(GPIOG, GPIO_Pin_13);
+        Delay(t2);
+        GPIO_ResetBits(GPIOG, GPIO_Pin_14);
+        Delay(t2);
+
+        //step2 X
+        GPIO_ResetBits(GPIOG, GPIO_Pin_9);
+        Delay(t2);
+        GPIO_SetBits(GPIOG, GPIO_Pin_10);
+        Delay(t2);
+        GPIO_SetBits(GPIOG, GPIO_Pin_13);
+        Delay(t2);
+        GPIO_ResetBits(GPIOG, GPIO_Pin_14);
+        Delay(t2);
+
+        //step3 X
+        GPIO_ResetBits(GPIOG, GPIO_Pin_9);
+        Delay(t2);
+        GPIO_SetBits(GPIOG, GPIO_Pin_10);
+        Delay(t2);
+        GPIO_ResetBits(GPIOG, GPIO_Pin_13);
+        Delay(t2);
+        GPIO_SetBits(GPIOG, GPIO_Pin_14);
+        Delay(t2);
+
+        //step4 X
+        GPIO_SetBits(GPIOG, GPIO_Pin_9);
+        Delay(t2);
+        GPIO_ResetBits(GPIOG, GPIO_Pin_10);
+        Delay(t2);
+        GPIO_ResetBits(GPIOG, GPIO_Pin_13);
+        Delay(t2);
+        GPIO_SetBits(GPIOG, GPIO_Pin_14);
+        Delay(t2);
+}
+
+void Y_clockwise()
+{
+    //step1
+        GPIO_SetBits(GPIOG, GPIO_Pin_5);
+        Delay(PHASE_Delay);
+        GPIO_ResetBits(GPIOG, GPIO_Pin_6);
+        Delay(PHASE_Delay);
+        GPIO_SetBits(GPIOG, GPIO_Pin_7);
+        Delay(PHASE_Delay);
+        GPIO_ResetBits(GPIOG, GPIO_Pin_8);
+        Delay(PHASE_Delay);
+        //step2
+        GPIO_ResetBits(GPIOG, GPIO_Pin_5);
+        Delay(PHASE_Delay);
+        GPIO_SetBits(GPIOG, GPIO_Pin_6);
+        Delay(PHASE_Delay);
+        GPIO_SetBits(GPIOG, GPIO_Pin_7);
+        Delay(PHASE_Delay);
+        GPIO_ResetBits(GPIOG, GPIO_Pin_8);
+        Delay(PHASE_Delay);
+        //step3
+        GPIO_ResetBits(GPIOG, GPIO_Pin_5);
+        Delay(PHASE_Delay);
+        GPIO_SetBits(GPIOG, GPIO_Pin_6);
+        Delay(PHASE_Delay);
+        GPIO_ResetBits(GPIOG, GPIO_Pin_7);
+        Delay(PHASE_Delay);
+        GPIO_SetBits(GPIOG, GPIO_Pin_8);
+        Delay(PHASE_Delay);
+        //step4
+        GPIO_SetBits(GPIOG, GPIO_Pin_5);
+        Delay(PHASE_Delay);
+        GPIO_ResetBits(GPIOG, GPIO_Pin_6);
+        Delay(PHASE_Delay);
+        GPIO_ResetBits(GPIOG, GPIO_Pin_7);
+        Delay(PHASE_Delay);
+        GPIO_SetBits(GPIOG, GPIO_Pin_8);
+        Delay(PHASE_Delay);
+}
+
+void Y_counterclockwise()
+{
+        int t1 = 2;
+        //step1 Y
+        GPIO_SetBits(GPIOG, GPIO_Pin_8);
+        Delay(t1);
+        GPIO_ResetBits(GPIOG, GPIO_Pin_7);
+        Delay(t1);
+        GPIO_SetBits(GPIOG, GPIO_Pin_6);
+        Delay(t1);
+        GPIO_ResetBits(GPIOG, GPIO_Pin_5);
+        Delay(t1);
+        
+        //step2 Y
+        GPIO_ResetBits(GPIOG, GPIO_Pin_8);
+        Delay(t1);
+        GPIO_SetBits(GPIOG, GPIO_Pin_7);
+        Delay(t1);
+        GPIO_SetBits(GPIOG, GPIO_Pin_6);
+        Delay(t1);
+        GPIO_ResetBits(GPIOG, GPIO_Pin_5);
+        Delay(t1);
+        
+        //step3 Y
+        GPIO_ResetBits(GPIOG, GPIO_Pin_8);
+        Delay(t1);
+        GPIO_SetBits(GPIOG, GPIO_Pin_7);
+        Delay(t1);
+        GPIO_ResetBits(GPIOG, GPIO_Pin_6);
+        Delay(t1);
+        GPIO_SetBits(GPIOG, GPIO_Pin_5);
+        Delay(t1);      
+
+        //step4 Y
+        GPIO_SetBits(GPIOG, GPIO_Pin_8);
+        Delay(t1);
+        GPIO_ResetBits(GPIOG, GPIO_Pin_7);
+        Delay(t1);
+        GPIO_ResetBits(GPIOG, GPIO_Pin_6);
+        Delay(t1);
+        GPIO_SetBits(GPIOG, GPIO_Pin_5);
+        Delay(t1);
+}
+
+void clockwise_A(int n)
+{
+    GPIO_ResetBits(GPIOG, GPIO_Pin_9 | GPIO_Pin_10 | \
+                   GPIO_Pin_13 | GPIO_Pin_14);
+    for(int i = 0; i < n; i++) {
+        X_clockwise();
     }
 }
 void counterClockwise_A(int n)
@@ -181,42 +280,7 @@ void counterClockwise_A(int n)
     GPIO_ResetBits(GPIOG, GPIO_Pin_9 | GPIO_Pin_10 | \
                    GPIO_Pin_13 | GPIO_Pin_14);
     for(int i = 0; i < n; i++) {
-         //step1
-        GPIO_SetBits(GPIOG, GPIO_Pin_9);
-        Delay(PHASE_Delay);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_10);
-        Delay(PHASE_Delay);
-        GPIO_SetBits(GPIOG, GPIO_Pin_13);
-        Delay(PHASE_Delay);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_14);
-        Delay(PHASE_Delay);
-        //step2
-        GPIO_ResetBits(GPIOG, GPIO_Pin_9);
-        Delay(PHASE_Delay);
-        GPIO_SetBits(GPIOG, GPIO_Pin_10);
-        Delay(PHASE_Delay);
-        GPIO_SetBits(GPIOG, GPIO_Pin_13);
-        Delay(PHASE_Delay);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_14);
-        Delay(PHASE_Delay);
-        //step3
-        GPIO_ResetBits(GPIOG, GPIO_Pin_9);
-        Delay(PHASE_Delay);
-        GPIO_SetBits(GPIOG, GPIO_Pin_10);
-        Delay(PHASE_Delay);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_13);
-        Delay(PHASE_Delay);
-        GPIO_SetBits(GPIOG, GPIO_Pin_14);
-        Delay(PHASE_Delay);
-        //step4
-        GPIO_SetBits(GPIOG, GPIO_Pin_9);
-        Delay(PHASE_Delay);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_10);
-        Delay(PHASE_Delay);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_13);
-        Delay(PHASE_Delay);
-        GPIO_SetBits(GPIOG, GPIO_Pin_14);
-        Delay(PHASE_Delay);        
+         X_counterclockwise();   
     }
 }
 
@@ -225,42 +289,7 @@ void clockwise_B(int n)
     GPIO_ResetBits(GPIOG, GPIO_Pin_5 | GPIO_Pin_6 | \
                    GPIO_Pin_7 | GPIO_Pin_8);
     for(int i = 0; i < n; i++) {
-        //step1
-        GPIO_SetBits(GPIOG, GPIO_Pin_5);
-        Delay(PHASE_Delay);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_6);
-        Delay(PHASE_Delay);
-        GPIO_SetBits(GPIOG, GPIO_Pin_7);
-        Delay(PHASE_Delay);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_8);
-        Delay(PHASE_Delay);
-        //step2
-        GPIO_ResetBits(GPIOG, GPIO_Pin_5);
-        Delay(PHASE_Delay);
-        GPIO_SetBits(GPIOG, GPIO_Pin_6);
-        Delay(PHASE_Delay);
-        GPIO_SetBits(GPIOG, GPIO_Pin_7);
-        Delay(PHASE_Delay);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_8);
-        Delay(PHASE_Delay);
-        //step3
-        GPIO_ResetBits(GPIOG, GPIO_Pin_5);
-        Delay(PHASE_Delay);
-        GPIO_SetBits(GPIOG, GPIO_Pin_6);
-        Delay(PHASE_Delay);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_7);
-        Delay(PHASE_Delay);
-        GPIO_SetBits(GPIOG, GPIO_Pin_8);
-        Delay(PHASE_Delay);
-        //step4
-        GPIO_SetBits(GPIOG, GPIO_Pin_5);
-        Delay(PHASE_Delay);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_6);
-        Delay(PHASE_Delay);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_7);
-        Delay(PHASE_Delay);
-        GPIO_SetBits(GPIOG, GPIO_Pin_8);
-        Delay(PHASE_Delay);
+        Y_clockwise();
     }
 }
 void counterClockwise_B(int n)
@@ -268,162 +297,40 @@ void counterClockwise_B(int n)
     GPIO_ResetBits(GPIOG, GPIO_Pin_5 | GPIO_Pin_6 | \
                    GPIO_Pin_7 | GPIO_Pin_8);
     for(int i = 0; i < n; i++) {
-        //step1
-        GPIO_SetBits(GPIOG, GPIO_Pin_8);
-        Delay(PHASE_Delay);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_7);
-        Delay(PHASE_Delay);
-        GPIO_SetBits(GPIOG, GPIO_Pin_6);
-        Delay(PHASE_Delay);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_5);
-        Delay(PHASE_Delay);
-        //step2
-        GPIO_ResetBits(GPIOG, GPIO_Pin_8);
-        Delay(PHASE_Delay);
-        GPIO_SetBits(GPIOG, GPIO_Pin_7);
-        Delay(PHASE_Delay);
-        GPIO_SetBits(GPIOG, GPIO_Pin_6);
-        Delay(PHASE_Delay);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_5);
-        Delay(PHASE_Delay);
-        //step3
-        GPIO_ResetBits(GPIOG, GPIO_Pin_8);
-        Delay(PHASE_Delay);
-        GPIO_SetBits(GPIOG, GPIO_Pin_7);
-        Delay(PHASE_Delay);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_6);
-        Delay(PHASE_Delay);
-        GPIO_SetBits(GPIOG, GPIO_Pin_5);
-        Delay(PHASE_Delay);
-        //step4
-        GPIO_SetBits(GPIOG, GPIO_Pin_8);
-        Delay(PHASE_Delay);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_7);
-        Delay(PHASE_Delay);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_6);
-        Delay(PHASE_Delay);
-        GPIO_SetBits(GPIOG, GPIO_Pin_5);
-        Delay(PHASE_Delay);
-        
+        Y_counterclockwise();
     }
 }
 
-void counterClockwise(int y)
+/* This function can control different x-y distance!!! */
+void write(int x, int y)
 {
     GPIO_ResetBits(GPIOG, GPIO_Pin_5 | GPIO_Pin_6 | \
                    GPIO_Pin_7 | GPIO_Pin_8 | GPIO_Pin_9 | GPIO_Pin_10 | \
                    GPIO_Pin_13 | GPIO_Pin_14);
+        int over = 0;
 
-        int t1 = 2;
-        int t2 = 2;
-        //int x,y,z,t1,t2;
-        /*if(m>n) 
-        {
-            x = 10*m/n;
-            y = m;
-            z = 10*n/m;
-            if(x<10 && x>0){
-                t1 = 2;
-                t2 = 2*x;
+        if(x>y){
+        for(int i=0; i<x; ++i){
+        X_counterclockwise();
+        over = over + y;
+        if (over>=x){
+        over = over - x;
+        Y_counterclockwise();                
             }
-            else if (x>10){
-                t1 = 2;
-                t2 = 2*x/10;
-            }
+        Delay(2);
         }
-        else 
-        {
-            x = 10*n/m;
-            y = n;
-            z = 10*n/m;
-            if(x<10 && x>0){
-                int t1 = 2;
-                int t2 = 2*x;
-            }
-            else if (x>10){
-                t1 = 2;
-                t2 = 2*x/10;
-            }
-        }*/
-
-        for(int i = 1; i < y; i++)
-        {
-        //step1
-        GPIO_SetBits(GPIOG, GPIO_Pin_8);
-        Delay(t1);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_7);
-        Delay(t1);
-        GPIO_SetBits(GPIOG, GPIO_Pin_6);
-        Delay(t1);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_5);
-        Delay(t1);
-        //step1
-        GPIO_SetBits(GPIOG, GPIO_Pin_9);
-        Delay(t2);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_10);
-        Delay(t2);
-        GPIO_SetBits(GPIOG, GPIO_Pin_13);
-        Delay(t2);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_14);
-        Delay(t2);
-
-        //step2
-        GPIO_ResetBits(GPIOG, GPIO_Pin_8);
-        Delay(t1);
-        GPIO_SetBits(GPIOG, GPIO_Pin_7);
-        Delay(t1);
-        GPIO_SetBits(GPIOG, GPIO_Pin_6);
-        Delay(t1);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_5);
-        Delay(t1);
-        //step2
-        GPIO_ResetBits(GPIOG, GPIO_Pin_9);
-        Delay(t2);
-        GPIO_SetBits(GPIOG, GPIO_Pin_10);
-        Delay(t2);
-        GPIO_SetBits(GPIOG, GPIO_Pin_13);
-        Delay(t2);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_14);
-        Delay(t2);
-
-        //step3
-        GPIO_ResetBits(GPIOG, GPIO_Pin_8);
-        Delay(t1);
-        GPIO_SetBits(GPIOG, GPIO_Pin_7);
-        Delay(t1);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_6);
-        Delay(t1);
-        GPIO_SetBits(GPIOG, GPIO_Pin_5);
-        Delay(t1);
-        //step3
-        GPIO_ResetBits(GPIOG, GPIO_Pin_9);
-        Delay(t2);
-        GPIO_SetBits(GPIOG, GPIO_Pin_10);
-        Delay(t2);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_13);
-        Delay(t2);
-        GPIO_SetBits(GPIOG, GPIO_Pin_14);
-        Delay(t2);
-
-        //step4
-        GPIO_SetBits(GPIOG, GPIO_Pin_8);
-        Delay(t1);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_7);
-        Delay(t1);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_6);
-        Delay(t1);
-        GPIO_SetBits(GPIOG, GPIO_Pin_5);
-        Delay(t1);        
-        //step4
-        GPIO_SetBits(GPIOG, GPIO_Pin_9);
-        Delay(t2);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_10);
-        Delay(t2);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_13);
-        Delay(t2);
-        GPIO_SetBits(GPIOG, GPIO_Pin_14);
-        Delay(t2);
+    }
+    else{
+        for(int i=0; i<y; ++i){
+        Y_counterclockwise();
+        over = over + x;
+        if (over>=x) {
+        over = over - y;
+        X_counterclockwise();                
         }
+        Delay(2);
+    }
+    }
 }
 
 void right_down(int y)
@@ -458,7 +365,7 @@ void right_down(int y)
         Delay(PHASE_Delay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_14);
         Delay(PHASE_Delay);
-//step2
+        //step2
         GPIO_ResetBits(GPIOG, GPIO_Pin_5);
         Delay(PHASE_Delay);
         GPIO_SetBits(GPIOG, GPIO_Pin_6);
@@ -513,6 +420,7 @@ void right_down(int y)
 void pad_init(){
     clockwise_B(65);
     clockwise_A(65);
+    Delay(500);
 }
 
 void pen_up(){
@@ -523,11 +431,4 @@ void pen_up(){
 void pen_down(){
     TIM4->CCR1 = 900;      // 1500 == 1.5 ms -> 90'
     Delay(500);
-}
-
-void MoveTo(int x, int y)
-{
-    counterClockwise_A(x);
-    counterClockwise_B(y);
-    vTaskDelay(200);
 }

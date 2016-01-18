@@ -24,14 +24,14 @@ static void H1(void *pvParameters){
     pen_down();
     counterClockwise_A(45);
     clockwise_A(45);
-    counterClockwise(25);
+    write(25);
     right_down(25);
     pen_up();
     counterClockwise_B(20);
     pen_down();
     clockwise_A(45);
     right_down(25);
-    counterClockwise(25);
+    write(25);
     pen_up();
     vTaskDelay(1);
     }
@@ -43,13 +43,14 @@ int main(void) {
     gpio_init_motor();
     pen_up();
     pad_init();
+    write(10, 40);
 
     //H();
     /* Create a task to button check. */
-    xTaskCreate(H1,(signed portCHAR *) "AutoWrite", 512, NULL, tskIDLE_PRIORITY + 4, NULL );
+    //xTaskCreate(H1,(signed portCHAR *) "AutoWrite", 512, NULL, tskIDLE_PRIORITY + 4, NULL );
 
   /* Start running the tasks. */
-    vTaskStartScheduler();
+    //vTaskStartScheduler();
     while(1);
 }
 

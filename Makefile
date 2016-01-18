@@ -53,7 +53,6 @@ SRC+=stm32f4_discovery.c
 
 #-----Self-Defined-----
 # Servo Motor
-SRC+=servo_motor.c
 SRC+=motor.c
 # Usart
 #SRC+=usart.c
