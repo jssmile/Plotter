@@ -267,42 +267,8 @@ void Y_counterclockwise()
         Delay(t1);
 }
 
-void clockwise_A(int n)
-{
-    GPIO_ResetBits(GPIOG, GPIO_Pin_9 | GPIO_Pin_10 | \
-                   GPIO_Pin_13 | GPIO_Pin_14);
-    for(int i = 0; i < n; i++) {
-        X_clockwise();
-    }
-}
-void counterClockwise_A(int n)
-{
-    GPIO_ResetBits(GPIOG, GPIO_Pin_9 | GPIO_Pin_10 | \
-                   GPIO_Pin_13 | GPIO_Pin_14);
-    for(int i = 0; i < n; i++) {
-         X_counterclockwise();   
-    }
-}
-
-void clockwise_B(int n)
-{
-    GPIO_ResetBits(GPIOG, GPIO_Pin_5 | GPIO_Pin_6 | \
-                   GPIO_Pin_7 | GPIO_Pin_8);
-    for(int i = 0; i < n; i++) {
-        Y_clockwise();
-    }
-}
-void counterClockwise_B(int n)
-{
-    GPIO_ResetBits(GPIOG, GPIO_Pin_5 | GPIO_Pin_6 | \
-                   GPIO_Pin_7 | GPIO_Pin_8);
-    for(int i = 0; i < n; i++) {
-        Y_counterclockwise();
-    }
-}
-
 /* This function can control different x-y distance!!! */
-void write(int x, int y)
+void right_up(int x, int y)
 {
     GPIO_ResetBits(GPIOG, GPIO_Pin_5 | GPIO_Pin_6 | \
                    GPIO_Pin_7 | GPIO_Pin_8 | GPIO_Pin_9 | GPIO_Pin_10 | \
@@ -333,93 +299,101 @@ void write(int x, int y)
     }
 }
 
-void right_down(int y)
+void left_up(int x, int y)
 {
-        for(int i = 1; i < y; i++)
-        {
-        GPIO_SetBits(GPIOG, GPIO_Pin_9);
-        Delay(PHASE_Delay);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_10);
-        Delay(PHASE_Delay);
-        GPIO_SetBits(GPIOG, GPIO_Pin_13);
-        Delay(PHASE_Delay);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_14);
-        Delay(PHASE_Delay);
-        //step1
-        GPIO_SetBits(GPIOG, GPIO_Pin_5);
-        Delay(PHASE_Delay);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_6);
-        Delay(PHASE_Delay);
-        GPIO_SetBits(GPIOG, GPIO_Pin_7);
-        Delay(PHASE_Delay);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_8);
-        Delay(PHASE_Delay);
+    GPIO_ResetBits(GPIOG, GPIO_Pin_5 | GPIO_Pin_6 | \
+                   GPIO_Pin_7 | GPIO_Pin_8 | GPIO_Pin_9 | GPIO_Pin_10 | \
+                   GPIO_Pin_13 | GPIO_Pin_14);
+    int over = 0;
 
+        if(x>y){
+        for(int i=0; i<x; ++i){
+        X_counterclockwise();
+        over = over + y;
+        if (over>=x){
+        over = over - x;
+        Y_clockwise();                
+            }
+        Delay(2);
+        }
+    }
+    else{
+        for(int i=0; i<y; ++i){
+        Y_clockwise();
+        over = over + x;
+        if (over>=x) {
+        over = over - y;
+        X_counterclockwise();                
+        }
+        Delay(2);
+    }
+    }
+}
 
-        //step2
-        GPIO_ResetBits(GPIOG, GPIO_Pin_9);
-        Delay(PHASE_Delay);
-        GPIO_SetBits(GPIOG, GPIO_Pin_10);
-        Delay(PHASE_Delay);
-        GPIO_SetBits(GPIOG, GPIO_Pin_13);
-        Delay(PHASE_Delay);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_14);
-        Delay(PHASE_Delay);
-        //step2
-        GPIO_ResetBits(GPIOG, GPIO_Pin_5);
-        Delay(PHASE_Delay);
-        GPIO_SetBits(GPIOG, GPIO_Pin_6);
-        Delay(PHASE_Delay);
-        GPIO_SetBits(GPIOG, GPIO_Pin_7);
-        Delay(PHASE_Delay);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_8);
-        Delay(PHASE_Delay);
+void right_down(int x, int y)
+{
+    GPIO_ResetBits(GPIOG, GPIO_Pin_5 | GPIO_Pin_6 | \
+                   GPIO_Pin_7 | GPIO_Pin_8 | GPIO_Pin_9 | GPIO_Pin_10 | \
+                   GPIO_Pin_13 | GPIO_Pin_14);
+    int over = 0;
 
-        //step3
-        GPIO_ResetBits(GPIOG, GPIO_Pin_9);
-        Delay(PHASE_Delay);
-        GPIO_SetBits(GPIOG, GPIO_Pin_10);
-        Delay(PHASE_Delay);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_13);
-        Delay(PHASE_Delay);
-        GPIO_SetBits(GPIOG, GPIO_Pin_14);
-        Delay(PHASE_Delay);
+        if(x>y){
+        for(int i=0; i<x; ++i){
+        X_clockwise();
+        over = over + y;
+        if (over>=x){
+        over = over - x;
+        Y_counterclockwise();                
+            }
+        Delay(2);
+        }
+    }
+    else{
+        for(int i=0; i<y; ++i){
+        Y_counterclockwise();
+        over = over + x;
+        if (over>=x) {
+        over = over - y;
+        X_clockwise();                
+        }
+        Delay(2);
+    }
+    }
+}
 
-        //step3
-        GPIO_ResetBits(GPIOG, GPIO_Pin_5);
-        Delay(PHASE_Delay);
-        GPIO_SetBits(GPIOG, GPIO_Pin_6);
-        Delay(PHASE_Delay);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_7);
-        Delay(PHASE_Delay);
-        GPIO_SetBits(GPIOG, GPIO_Pin_8);
-        Delay(PHASE_Delay);
+void left_down(int x, int y)
+{
+    GPIO_ResetBits(GPIOG, GPIO_Pin_5 | GPIO_Pin_6 | \
+                   GPIO_Pin_7 | GPIO_Pin_8 | GPIO_Pin_9 | GPIO_Pin_10 | \
+                   GPIO_Pin_13 | GPIO_Pin_14);
+    int over = 0;
 
-        //step4
-        GPIO_SetBits(GPIOG, GPIO_Pin_9);
-        Delay(PHASE_Delay);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_10);
-        Delay(PHASE_Delay);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_13);
-        Delay(PHASE_Delay);
-        GPIO_SetBits(GPIOG, GPIO_Pin_14);
-        Delay(PHASE_Delay);        
-        
-        //step4
-        GPIO_SetBits(GPIOG, GPIO_Pin_5);
-        Delay(PHASE_Delay);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_6);
-        Delay(PHASE_Delay);
-        GPIO_ResetBits(GPIOG, GPIO_Pin_7);
-        Delay(PHASE_Delay);
-        GPIO_SetBits(GPIOG, GPIO_Pin_8);
-        Delay(PHASE_Delay);
+        if(x>y){
+        for(int i=0; i<x; ++i){
+        X_clockwise();
+        over = over + y;
+        if (over>=x){
+        over = over - x;
+        Y_clockwise();                
+            }
+        Delay(2);
+        }
+    }
+    else{
+        for(int i=0; i<y; ++i){
+        Y_clockwise();
+        over = over + x;
+        if (over>=x) {
+        over = over - y;
+        X_clockwise();                
+        }
+        Delay(2);
+    }
     }
 }
 
 void pad_init(){
-    clockwise_B(65);
-    clockwise_A(65);
+    left_down(65,65);
     Delay(500);
 }
 
@@ -431,4 +405,71 @@ void pen_up(){
 void pen_down(){
     TIM4->CCR1 = 900;      // 1500 == 1.5 ms -> 90'
     Delay(500);
+}
+
+void draw()
+{
+    right_down(16,32);
+    pen_down();
+    left_up(8,8);
+    left_down(8,8);
+    right_down(8,8);
+    right_up(8,8);
+    pen_up();
+    left_up(5,2);
+    pen_down();
+    right_up(5,0);
+    pen_up();
+    left_down(3,3);
+    pen_down();
+    pen_up();
+    left_up(3,3);
+    pen_down();
+    left_down(10,5);
+    right_up(10,0);
+    pen_up();
+    pad_init();
+    right_down(16,32);
+    pen_down();
+    right_up(32,0);
+    pen_up();
+    left_up(32,0);
+    pen_down();
+    right_up(16,20);
+    right_down(0,16);
+    right_up(8,10);
+    right_down(0,10);
+    right_up(8,10);
+    right_down(0,14);
+    pen_up();
+    pad_init();
+    right_down(16,32);
+    pen_down();
+    right_down(16,20);
+    right_up(0,16);
+    right_down(8,10);
+    right_up(0,10);
+    right_down(8,10);
+    right_up(0,14);
+    right_down(10,10);
+    left_up(5,5);
+    right_up(5,5);
+    left_up(5,0);
+    right_up(0,8);
+    left_down(10,10);
+    pen_up();
+}
+
+void test()
+{
+    right_up(32,32);
+    Delay(500);
+    pen_down();
+    right_up(32,32);
+    left_down(32,32);
+    right_down(32,32);
+    left_up(32,32);
+    left_down(32,32);
+    right_up(32,32);
+
 }

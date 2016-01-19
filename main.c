@@ -17,25 +17,6 @@
 #include "task.h"
 #include <motor.h>
 
-//Write H
-static void H1(void *pvParameters){
-    while(1){
-    counterClockwise_B(10);
-    pen_down();
-    counterClockwise_A(45);
-    clockwise_A(45);
-    write(25);
-    right_down(25);
-    pen_up();
-    counterClockwise_B(20);
-    pen_down();
-    clockwise_A(45);
-    right_down(25);
-    write(25);
-    pen_up();
-    vTaskDelay(1);
-    }
-}
 
 int main(void) {
     setSysTick();
@@ -43,9 +24,8 @@ int main(void) {
     gpio_init_motor();
     pen_up();
     pad_init();
-    write(10, 40);
+    test();
 
-    //H();
     /* Create a task to button check. */
     //xTaskCreate(H1,(signed portCHAR *) "AutoWrite", 512, NULL, tskIDLE_PRIORITY + 4, NULL );
 
