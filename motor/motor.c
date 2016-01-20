@@ -425,68 +425,15 @@ void pen_down(){
 
 void draw()
 {
-    Moveto(1,43);
+    Moveto(0,55);
     pen_down();
-    Moveto(3,6);
-    Moveto(2,2);
-    Moveto(2,2);
-    Moveto(3,3);
-    Moveto(3,3);
-    Moveto(4,2);
-    Moveto(4,2);
-    Moveto(5,1);
-    Moveto(5,1);
-    Moveto(4,0);
-    Moveto(2,-1);
-    Moveto(6,-2);
-    Moveto(3,-2);
-    Moveto(5,-2);
-    Moveto(4,-3);
-    Moveto(3,-4);
-    Moveto(2,-4);
-    Moveto(3,-3);
-    Moveto(0,-1);
-    Moveto(1,-5);
-    Moveto(0,-4);
-    Moveto(0,-8);
-    Moveto(-2,-4);
-    Moveto(-1,-5);
-    Moveto(-3,-4);
-    Moveto(-3,-3);
-    Moveto(-5,-5);
-    Moveto(-4,-2);
-    Moveto(-3,-1);
-    Moveto(-3,-1);
-    Moveto(-7,-1);
-    Moveto(-6,0);
-    Moveto(-3,1);
-    Moveto(-5,2);
-    Moveto(-3,1);
-    Moveto(-2,1);
-    Moveto(-2,1);
-    Moveto(-4,4);
-    Moveto(-2,2);
-    Moveto(-3,4);
-    Moveto(-2,4);
-    Moveto(-2,4);
-    Moveto(0,4);
-    Moveto(0,4);
-    Moveto(0,2);
-    Moveto(0,5);
-    Moveto(2,4);
-    Moveto(23,0);
-    Moveto(8,21);
-    Moveto(7,-21);
-    Moveto(23,0);
-    Moveto(-18,-14);
-    Moveto(6,-21);
-    Moveto(-18,11);
-    Moveto(-19,-12);
-    Moveto(5,21);
-    Moveto(-17,14);
-    pen_up();
+    Moveto(,);
+
+    
 }
 
+
+//Star
 /*
     Moveto(1,43);
     pen_down();
