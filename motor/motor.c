@@ -141,46 +141,45 @@ void X_clockwise()
 
 void X_counterclockwise()
 {
-        int t2 =2;
         //step1 X
         GPIO_SetBits(GPIOG, GPIO_Pin_9);
-        Delay(t2);
+        Delay(PHASE_Delay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_10);
-        Delay(t2);
+        Delay(PHASE_Delay);
         GPIO_SetBits(GPIOG, GPIO_Pin_13);
-        Delay(t2);
+        Delay(PHASE_Delay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_14);
-        Delay(t2);
+        Delay(PHASE_Delay);
 
         //step2 X
         GPIO_ResetBits(GPIOG, GPIO_Pin_9);
-        Delay(t2);
+        Delay(PHASE_Delay);
         GPIO_SetBits(GPIOG, GPIO_Pin_10);
-        Delay(t2);
+        Delay(PHASE_Delay);
         GPIO_SetBits(GPIOG, GPIO_Pin_13);
-        Delay(t2);
+        Delay(PHASE_Delay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_14);
-        Delay(t2);
+        Delay(PHASE_Delay);
 
         //step3 X
         GPIO_ResetBits(GPIOG, GPIO_Pin_9);
-        Delay(t2);
+        Delay(PHASE_Delay);
         GPIO_SetBits(GPIOG, GPIO_Pin_10);
-        Delay(t2);
+        Delay(PHASE_Delay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_13);
-        Delay(t2);
+        Delay(PHASE_Delay);
         GPIO_SetBits(GPIOG, GPIO_Pin_14);
-        Delay(t2);
+        Delay(PHASE_Delay);
 
         //step4 X
         GPIO_SetBits(GPIOG, GPIO_Pin_9);
-        Delay(t2);
+        Delay(PHASE_Delay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_10);
-        Delay(t2);
+        Delay(PHASE_Delay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_13);
-        Delay(t2);
+        Delay(PHASE_Delay);
         GPIO_SetBits(GPIOG, GPIO_Pin_14);
-        Delay(t2);
+        Delay(PHASE_Delay);
 }
 
 void Y_clockwise()
@@ -225,50 +224,49 @@ void Y_clockwise()
 
 void Y_counterclockwise()
 {
-        int t1 = 2;
         //step1 Y
         GPIO_SetBits(GPIOG, GPIO_Pin_8);
-        Delay(t1);
+        Delay(PHASE_Delay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_7);
-        Delay(t1);
+        Delay(PHASE_Delay);
         GPIO_SetBits(GPIOG, GPIO_Pin_6);
-        Delay(t1);
+        Delay(PHASE_Delay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_5);
-        Delay(t1);
+        Delay(PHASE_Delay);
         
         //step2 Y
         GPIO_ResetBits(GPIOG, GPIO_Pin_8);
-        Delay(t1);
+        Delay(PHASE_Delay);
         GPIO_SetBits(GPIOG, GPIO_Pin_7);
-        Delay(t1);
+        Delay(PHASE_Delay);
         GPIO_SetBits(GPIOG, GPIO_Pin_6);
-        Delay(t1);
+        Delay(PHASE_Delay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_5);
-        Delay(t1);
+        Delay(PHASE_Delay);
         
         //step3 Y
         GPIO_ResetBits(GPIOG, GPIO_Pin_8);
-        Delay(t1);
+        Delay(PHASE_Delay);
         GPIO_SetBits(GPIOG, GPIO_Pin_7);
-        Delay(t1);
+        Delay(PHASE_Delay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_6);
-        Delay(t1);
+        Delay(PHASE_Delay);
         GPIO_SetBits(GPIOG, GPIO_Pin_5);
-        Delay(t1);      
+        Delay(PHASE_Delay);      
 
         //step4 Y
         GPIO_SetBits(GPIOG, GPIO_Pin_8);
-        Delay(t1);
+        Delay(PHASE_Delay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_7);
-        Delay(t1);
+        Delay(PHASE_Delay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_6);
-        Delay(t1);
+        Delay(PHASE_Delay);
         GPIO_SetBits(GPIOG, GPIO_Pin_5);
-        Delay(t1);
+        Delay(PHASE_Delay);
 }
 
 /* This function can control different x-y distance!!! */
-void right_up(int x, int y)
+void right_up(int y,int x)
 {
     GPIO_ResetBits(GPIOG, GPIO_Pin_5 | GPIO_Pin_6 | \
                    GPIO_Pin_7 | GPIO_Pin_8 | GPIO_Pin_9 | GPIO_Pin_10 | \
@@ -283,7 +281,6 @@ void right_up(int x, int y)
         over = over - x;
         Y_counterclockwise();                
             }
-        Delay(2);
         }
     }
     else{
@@ -294,12 +291,11 @@ void right_up(int x, int y)
         over = over - y;
         X_counterclockwise();                
         }
-        Delay(2);
     }
     }
 }
 
-void left_up(int x, int y)
+void left_up(int y,int x)
 {
     GPIO_ResetBits(GPIOG, GPIO_Pin_5 | GPIO_Pin_6 | \
                    GPIO_Pin_7 | GPIO_Pin_8 | GPIO_Pin_9 | GPIO_Pin_10 | \
@@ -314,7 +310,6 @@ void left_up(int x, int y)
         over = over - x;
         Y_clockwise();                
             }
-        Delay(2);
         }
     }
     else{
@@ -325,12 +320,11 @@ void left_up(int x, int y)
         over = over - y;
         X_counterclockwise();                
         }
-        Delay(2);
     }
     }
 }
 
-void right_down(int x, int y)
+void right_down(int y,int x)
 {
     GPIO_ResetBits(GPIOG, GPIO_Pin_5 | GPIO_Pin_6 | \
                    GPIO_Pin_7 | GPIO_Pin_8 | GPIO_Pin_9 | GPIO_Pin_10 | \
@@ -345,7 +339,6 @@ void right_down(int x, int y)
         over = over - x;
         Y_counterclockwise();                
             }
-        Delay(2);
         }
     }
     else{
@@ -356,12 +349,11 @@ void right_down(int x, int y)
         over = over - y;
         X_clockwise();                
         }
-        Delay(2);
     }
     }
 }
 
-void left_down(int x, int y)
+void left_down(int y,int x)
 {
     GPIO_ResetBits(GPIOG, GPIO_Pin_5 | GPIO_Pin_6 | \
                    GPIO_Pin_7 | GPIO_Pin_8 | GPIO_Pin_9 | GPIO_Pin_10 | \
@@ -376,7 +368,6 @@ void left_down(int x, int y)
         over = over - x;
         Y_clockwise();                
             }
-        Delay(2);
         }
     }
     else{
@@ -387,8 +378,33 @@ void left_down(int x, int y)
         over = over - y;
         X_clockwise();                
         }
-        Delay(2);
     }
+    }
+}
+
+void Moveto(int y,int x)
+{
+    if(y>=0)
+    {
+        if(x>=0)
+        {
+            right_up(y,x);
+        }
+        else
+        {
+            right_down(y,-x);
+        }
+    }
+    else
+    {
+        if(x>=0)
+        {
+            left_up(-y,x);
+        }
+        else
+        {
+            left_down(-y,-x);
+        }
     }
 }
 
@@ -409,67 +425,201 @@ void pen_down(){
 
 void draw()
 {
-    right_down(16,32);
+    Moveto(1,43);
     pen_down();
-    left_up(8,8);
-    left_down(8,8);
-    right_down(8,8);
-    right_up(8,8);
-    pen_up();
-    left_up(5,2);
-    pen_down();
-    right_up(5,0);
-    pen_up();
-    left_down(3,3);
-    pen_down();
-    pen_up();
-    left_up(3,3);
-    pen_down();
-    left_down(10,5);
-    right_up(10,0);
-    pen_up();
-    pad_init();
-    right_down(16,32);
-    pen_down();
-    right_up(32,0);
-    pen_up();
-    left_up(32,0);
-    pen_down();
-    right_up(16,20);
-    right_down(0,16);
-    right_up(8,10);
-    right_down(0,10);
-    right_up(8,10);
-    right_down(0,14);
-    pen_up();
-    pad_init();
-    right_down(16,32);
-    pen_down();
-    right_down(16,20);
-    right_up(0,16);
-    right_down(8,10);
-    right_up(0,10);
-    right_down(8,10);
-    right_up(0,14);
-    right_down(10,10);
-    left_up(5,5);
-    right_up(5,5);
-    left_up(5,0);
-    right_up(0,8);
-    left_down(10,10);
+    Moveto(3,6);
+    Moveto(2,2);
+    Moveto(2,2);
+    Moveto(3,3);
+    Moveto(3,3);
+    Moveto(4,2);
+    Moveto(4,2);
+    Moveto(5,1);
+    Moveto(5,1);
+    Moveto(4,0);
+    Moveto(2,-1);
+    Moveto(6,-2);
+    Moveto(3,-2);
+    Moveto(5,-2);
+    Moveto(4,-3);
+    Moveto(3,-4);
+    Moveto(2,-4);
+    Moveto(3,-3);
+    Moveto(0,-1);
+    Moveto(1,-5);
+    Moveto(0,-4);
+    Moveto(0,-8);
+    Moveto(-2,-4);
+    Moveto(-1,-5);
+    Moveto(-3,-4);
+    Moveto(-3,-3);
+    Moveto(-5,-5);
+    Moveto(-4,-2);
+    Moveto(-3,-1);
+    Moveto(-3,-1);
+    Moveto(-7,-1);
+    Moveto(-6,0);
+    Moveto(-3,1);
+    Moveto(-5,2);
+    Moveto(-3,1);
+    Moveto(-2,1);
+    Moveto(-2,1);
+    Moveto(-4,4);
+    Moveto(-2,2);
+    Moveto(-3,4);
+    Moveto(-2,4);
+    Moveto(-2,4);
+    Moveto(0,4);
+    Moveto(0,4);
+    Moveto(0,2);
+    Moveto(0,5);
+    Moveto(2,4);
+    Moveto(23,0);
+    Moveto(8,21);
+    Moveto(7,-21);
+    Moveto(23,0);
+    Moveto(-18,-14);
+    Moveto(6,-21);
+    Moveto(-18,11);
+    Moveto(-19,-12);
+    Moveto(5,21);
+    Moveto(-17,14);
     pen_up();
 }
 
-void test()
-{
-    right_up(32,32);
-    Delay(500);
+/*
+    Moveto(1,43);
     pen_down();
-    right_up(32,32);
-    left_down(32,32);
-    right_down(32,32);
-    left_up(32,32);
-    left_down(32,32);
-    right_up(32,32);
+    Moveto(3,6);
+    Moveto(2,2);
+    Moveto(2,2);
+    Moveto(3,3);
+    Moveto(3,3);
+    Moveto(4,2);
+    Moveto(4,2);
+    Moveto(5,1);
+    Moveto(5,1);
+    Moveto(4,0);
+    Moveto(2,-1);
+    Moveto(6,-2);
+    Moveto(3,-2);
+    Moveto(5,-2);
+    Moveto(4,-3);
+    Moveto(3,-4);
+    Moveto(2,-4);
+    Moveto(3,-3);
+    Moveto(0,-1);
+    Moveto(1,-5);
+    Moveto(0,-4);
+    Moveto(0,-8);
+    Moveto(-2,-4);
+    Moveto(-1,-5);
+    Moveto(-3,-4);
+    Moveto(-3,-3);
+    Moveto(-5,-5);
+    Moveto(-4,-2);
+    Moveto(-3,-1);
+    Moveto(-3,-1);
+    Moveto(-7,-1);
+    Moveto(-6,0);
+    Moveto(-3,1);
+    Moveto(-5,2);
+    Moveto(-3,1);
+    Moveto(-2,1);
+    Moveto(-2,1);
+    Moveto(-4,4);
+    Moveto(-2,2);
+    Moveto(-3,4);
+    Moveto(-2,4);
+    Moveto(-2,4);
+    Moveto(0,4);
+    Moveto(0,4);
+    Moveto(0,2);
+    Moveto(0,5);
+    Moveto(2,4);
+    Moveto(23,0);
+    Moveto(8,21);
+    Moveto(7,-21);
+    Moveto(23,0);
+    Moveto(-18,-14);
+    Moveto(6,-21);
+    Moveto(-18,11);
+    Moveto(-19,-12);
+    Moveto(5,21);
+    Moveto(-17,14);
+    pen_up();
+*/
 
-}
+
+//NARUTO
+    /*
+Moveto(65,65);
+    pen_down();
+    Moveto(-3,-3);
+    Moveto(-3,-2);
+    Moveto(-2,-4);
+    Moveto(-4,-1);
+    Moveto(-5,4);
+    Moveto(-3,1);
+    Moveto(-4,1);
+    Moveto(-2,1);
+    Moveto(-5,0);
+    Moveto(-5,-1);
+    Moveto(-3,0);
+    Moveto(-5,-3);
+    Moveto(-3,-2);
+    Moveto(-6,-8);
+    Moveto(0,-5);
+    Moveto(-2,-8);
+    Moveto(-2,-6);
+    Moveto(2,-9);
+    Moveto(1,-2);
+    Moveto(2,-5);
+    Moveto(4,-5);
+    Moveto(3,-3);
+    Moveto(4,-2);
+    Moveto(4,-1);
+    Moveto(3,-2);
+    Moveto(3,0);
+    Moveto(3,0);
+    Moveto(4,2);
+    Moveto(3,1);
+    Moveto(2,2);
+    Moveto(2,3);
+    Moveto(2,3);
+    Moveto(2,5);
+    Moveto(1,1);
+    Moveto(0,5);
+    Moveto(0,5);
+    Moveto(0,6);
+    Moveto(-1,4);
+    Moveto(-2,4);
+    Moveto(-1,3);
+    Moveto(-3,1);
+    Moveto(-5,3);
+    Moveto(-5,1);
+    Moveto(-5,-1);
+    Moveto(-2,-1);
+    Moveto(-2,-2);
+    Moveto(-4,-4);
+    Moveto(-1,-5);
+    Moveto(0,-4);
+    Moveto(0,-6);
+    Moveto(1,-4);
+    Moveto(3,-1);
+    Moveto(2,-4);
+    Moveto(2,0);
+    Moveto(5,0);
+    Moveto(5,3);
+    Moveto(2,4);
+    Moveto(0,4);
+    Moveto(0,4);
+    Moveto(-1,2);
+    Moveto(-1,1);
+    pen_up();
+    Moveto(-32,-2);
+    pen_down();
+    Moveto(-7,-25);
+    Moveto(23,0);
+
+    */

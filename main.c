@@ -24,7 +24,7 @@ int main(void) {
     gpio_init_motor();
     pen_up();
     pad_init();
-    test();
+    draw();
 
     /* Create a task to button check. */
     //xTaskCreate(H1,(signed portCHAR *) "AutoWrite", 512, NULL, tskIDLE_PRIORITY + 4, NULL );
