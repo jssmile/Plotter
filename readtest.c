@@ -24,23 +24,23 @@ int main()
              int y=atoi(token);
 
              //x-axis
-             fprintf(out1, "Moveto(%d);\n", x);
+             fprintf(out1, "Moveto(%d);", x);
              if(abs(x)<=abs(y))
              {
-                printf("Delay(32*%d);\n", (abs(y)-abs(x)));
-                fprintf(out1, "Delay(32*%d);\n", (abs(y)-abs(x)));
+                //printf("Delay(32*%d);", (abs(y)-abs(x)));
+                fprintf(out1, "Delay(32*%d);", (abs(y)-abs(x)));
              }
-
+             fprintf(out1, "\n");
 
              
              //y-axis
-             fprintf(out2, "Moveto(%d);\n", y);
+             fprintf(out2, "Moveto(%d);", y);
              if(abs(y)<=abs(x))
              {
-                printf("Delay(32*%d);\n", (abs(x)-abs(y)));
-                fprintf(out2, "Delay(32*%d);\n", (abs(x)-abs(y)));
+                //printf("Delay(32*%d);", (abs(x)-abs(y)));
+                fprintf(out2, "Delay(32*%d);", (abs(x)-abs(y)));
              }
- 
+             fprintf(out2, "\n");
              count++;  
         } 
    }

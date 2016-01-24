@@ -16,6 +16,7 @@
 #include "FreeRTOS.h"
 #include "task.h"
 #include <motor.h>
+#include <string.h>
 
 
 int main(void) {

@@ -104,9 +104,9 @@ void config_PWM(void) {
  *    4  1  0  0  1
 */
 
-void Y_clockwise()
+void X_clockwise()
 {
-    //step1
+        //step1 X
         GPIO_SetBits(GPIOG, GPIO_Pin_5);
         Delay(PHASE_Delay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_6);
@@ -115,7 +115,7 @@ void Y_clockwise()
         Delay(PHASE_Delay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_8);
         Delay(PHASE_Delay);
-        //step2
+        //step2 X
         GPIO_ResetBits(GPIOG, GPIO_Pin_5);
         Delay(PHASE_Delay);
         GPIO_SetBits(GPIOG, GPIO_Pin_6);
@@ -124,7 +124,7 @@ void Y_clockwise()
         Delay(PHASE_Delay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_8);
         Delay(PHASE_Delay);
-        //step3
+        //step3 X
         GPIO_ResetBits(GPIOG, GPIO_Pin_5);
         Delay(PHASE_Delay);
         GPIO_SetBits(GPIOG, GPIO_Pin_6);
@@ -133,7 +133,7 @@ void Y_clockwise()
         Delay(PHASE_Delay);
         GPIO_SetBits(GPIOG, GPIO_Pin_8);
         Delay(PHASE_Delay);
-        //step4
+        //step4 X
         GPIO_SetBits(GPIOG, GPIO_Pin_5);
         Delay(PHASE_Delay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_6);
@@ -144,9 +144,9 @@ void Y_clockwise()
         Delay(PHASE_Delay);
 }
 
-void Y_counterclockwise()
+void X_counterclockwise()
 {
-        //step1 Y
+        //step1 X
         GPIO_SetBits(GPIOG, GPIO_Pin_8);
         Delay(PHASE_Delay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_7);
@@ -156,7 +156,7 @@ void Y_counterclockwise()
         GPIO_ResetBits(GPIOG, GPIO_Pin_5);
         Delay(PHASE_Delay);
         
-        //step2 Y
+        //step2 X
         GPIO_ResetBits(GPIOG, GPIO_Pin_8);
         Delay(PHASE_Delay);
         GPIO_SetBits(GPIOG, GPIO_Pin_7);
@@ -166,7 +166,7 @@ void Y_counterclockwise()
         GPIO_ResetBits(GPIOG, GPIO_Pin_5);
         Delay(PHASE_Delay);
         
-        //step3 Y
+        //step3 X
         GPIO_ResetBits(GPIOG, GPIO_Pin_8);
         Delay(PHASE_Delay);
         GPIO_SetBits(GPIOG, GPIO_Pin_7);
@@ -176,7 +176,7 @@ void Y_counterclockwise()
         GPIO_SetBits(GPIOG, GPIO_Pin_5);
         Delay(PHASE_Delay);      
 
-        //step4 Y
+        //step4 X
         GPIO_SetBits(GPIOG, GPIO_Pin_8);
         Delay(PHASE_Delay);
         GPIO_ResetBits(GPIOG, GPIO_Pin_7);
@@ -193,7 +193,7 @@ void Moveto(int x)
     {
         for(int i=0;i<x;++i)
         {
-        Y_counterclockwise();
+        X_counterclockwise();
         }
     }
     else
@@ -201,7 +201,7 @@ void Moveto(int x)
         x=-x;
         for(int i=0;i<x;++i)
         {
-        Y_clockwise();
+        X_clockwise();
         }
     }
         
@@ -221,6 +221,13 @@ void pen_down(){
     TIM4->CCR1 = 900;      // 1500 == 1.5 ms -> 90'
     Delay(500);
 }
+
+void draw()
+{
+    //Leave the gcode below
+}
+
+
 
 void read_and_draw()
 {
@@ -256,17 +263,4 @@ void read_and_draw()
              printf("count=%d\n",count);
         } 
    }
-
-  } 
-
-}
-
-void draw()
-{
-    //fill the code beblow
-
-    //enter the origin point and use pen_down() function
-
-    //enter the data of output_y.txt produced by readtest.c
-
 }
